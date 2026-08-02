@@ -1,0 +1,14 @@
+C:\Users\yomam\RiderProjects\The Fountain of Objects\bin\Debug\net10.0\The Fountain of Objects.exe
+C:\Users\yomam\RiderProjects\The Fountain of Objects\bin\Debug\net10.0\The Fountain of Objects.deps.json
+C:\Users\yomam\RiderProjects\The Fountain of Objects\bin\Debug\net10.0\The Fountain of Objects.runtimeconfig.json
+C:\Users\yomam\RiderProjects\The Fountain of Objects\bin\Debug\net10.0\The Fountain of Objects.dll
+C:\Users\yomam\RiderProjects\The Fountain of Objects\bin\Debug\net10.0\The Fountain of Objects.pdb
+C:\Users\yomam\RiderProjects\The Fountain of Objects\obj\Debug\net10.0\The Fountain of Objects.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\yomam\RiderProjects\The Fountain of Objects\obj\Debug\net10.0\The Fountain of Objects.AssemblyInfoInputs.cache
+C:\Users\yomam\RiderProjects\The Fountain of Objects\obj\Debug\net10.0\The Fountain of Objects.AssemblyInfo.cs
+C:\Users\yomam\RiderProjects\The Fountain of Objects\obj\Debug\net10.0\The Fountain of Objects.csproj.CoreCompileInputs.cache
+C:\Users\yomam\RiderProjects\The Fountain of Objects\obj\Debug\net10.0\The Fountain of Objects.dll
+C:\Users\yomam\RiderProjects\The Fountain of Objects\obj\Debug\net10.0\refint\The Fountain of Objects.dll
+C:\Users\yomam\RiderProjects\The Fountain of Objects\obj\Debug\net10.0\The Fountain of Objects.pdb
+C:\Users\yomam\RiderProjects\The Fountain of Objects\obj\Debug\net10.0\The Fountain of Objects.genruntimeconfig.cache
+C:\Users\yomam\RiderProjects\The Fountain of Objects\obj\Debug\net10.0\ref\The Fountain of Objects.dll
