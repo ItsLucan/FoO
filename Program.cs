@@ -111,9 +111,9 @@ public class Cave
 public class Room(RoomType type, Location location)
 {
     
-    public RoomType Type { get; private set; } = type;
-    public bool IsPlayerHere { get; private set; } = false;
-    public Location Location { get; private set; } = location;
+    public RoomType Type { get; } = type;
+    public bool IsPlayerHere { get; private set; }
+    public Location Location { get; } = location;
 
     public void SetPlayerHere(bool isHere)
     {
