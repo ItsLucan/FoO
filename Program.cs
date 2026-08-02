@@ -1,5 +1,5 @@
-﻿Player player = new Player();
-Cave cave = new Cave(4, 4);
+﻿Cave cave = new Cave(4, 4);
+Player player = new Player(cave.Rooms.GetLength(0), cave.Rooms.GetLength(1));
 Game game = new Game(player, cave);
 
 game.Run();
@@ -54,8 +54,10 @@ public class Game
     }
 }
 
-public class Player
+public class Player(int caveRows, int caveColumns)
 {
+    private int _caveRows = caveRows;
+    private int _caveColumns = caveColumns;
     public Location Location { get; private set; } = new Location { Row = 0, Column = 0};
     // TODO find a way to remove magic numbers from movement switch
     public void Move()
@@ -65,8 +67,8 @@ public class Player
         { 
             ConsoleKey.W when Location.Row - 1 >= 0 => Location with { Row = Location.Row - 1 },
             ConsoleKey.A when Location.Column - 1 >= 0 => Location with { Column = Location.Column - 1 },
-            ConsoleKey.S when Location.Row + 1 < 4 => Location with { Row = Location.Row + 1 },
-            ConsoleKey.D when Location.Column + 1 < 4 => Location with { Column = Location.Column + 1 },
+            ConsoleKey.S when Location.Row + 1 < _caveRows => Location with { Row = Location.Row + 1 },
+            ConsoleKey.D when Location.Column + 1 < _caveColumns => Location with { Column = Location.Column + 1 },
             _ => Location
         };
     }
