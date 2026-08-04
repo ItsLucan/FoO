@@ -4,6 +4,7 @@ Game game = new Game(player, cave);
 
 game.Run();
 
+
 public class Game
 {
     private Player _player;
@@ -70,6 +71,7 @@ public class Game
     }
 }
 
+
 public class Player()
 {
     public Location Location { get; private set; } = new Location { Row = 0, Column = 0};
@@ -81,6 +83,7 @@ public class Player()
         Location = location;
     }
 }
+
 
 public class Cave
 {
@@ -108,6 +111,7 @@ public class Cave
     public Room GetRoomAt(Location location) => Rooms[location.Row, location.Column];
 }
 
+
 public class Room(RoomType type, Location location)
 {
     
@@ -120,6 +124,7 @@ public class Room(RoomType type, Location location)
         IsPlayerHere = isHere;
     }
 }
+
 
 public readonly record struct Location(int Row, int Column);
 
