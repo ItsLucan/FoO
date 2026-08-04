@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\yomam\\RiderProjects\\The Fountain of Objects\\FoO\\The Fountain of Objects.csproj",
+      "projectUniqueName": "C:\\Users\\yomam\\Documents\\RiderProjects\\FoO\\FoO\\The Fountain of Objects.csproj",
       "projectName": "The Fountain of Objects",
-      "projectPath": "C:\\Users\\yomam\\RiderProjects\\The Fountain of Objects\\FoO\\The Fountain of Objects.csproj",
+      "projectPath": "C:\\Users\\yomam\\Documents\\RiderProjects\\FoO\\FoO\\The Fountain of Objects.csproj",
       "packagesPath": "C:\\Users\\yomam\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\yomam\\RiderProjects\\The Fountain of Objects\\FoO\\obj\\",
+      "outputPath": "C:\\Users\\yomam\\Documents\\RiderProjects\\FoO\\FoO\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\yomam\\AppData\\Roaming\\NuGet\\NuGet.Config"
