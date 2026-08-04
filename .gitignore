@@ -1,0 +1,18 @@
+# Build results
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+
+# JetBrains Rider
+.idea/
+*.sln.iml
+
+# Visual Studio (in case you switch)
+.vs/
+*.suo
+*.user
+
+# OS files
+.DS_Store
+Thumbs.db
