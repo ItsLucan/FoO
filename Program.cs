@@ -1,5 +1,5 @@
 ﻿Cave cave = new Cave(4, 4);
-Player player = new Player();
+Player player = new Player(cave.Rows, cave.Columns);
 Game game = new Game(player, cave);
 
 game.Run();
@@ -26,7 +26,8 @@ public class Game
             UpdatePlayerRoom();
             Display();
             Console.WriteLine(_player.Location);
-            MovePlayer();
+            Console.WriteLine(_currentRoom.Type);
+            _player.Move();
         }
     }
 
@@ -39,22 +40,6 @@ public class Game
         }
 
         _currentRoom.SetPlayerHere(true);
-    }
-
-    private void MovePlayer()
-    {
-        Location desiredLocation = new Location(_player.Location.Row, _player.Location.Column);
-        
-        desiredLocation = _player.GetInput() switch
-        {
-            ConsoleKey.W when _player.Location.Row - 1 >= 0 => _player.Location with { Row = _player.Location.Row - 1 },
-            ConsoleKey.A when _player.Location.Column - 1 >= 0 => _player.Location with { Column = _player.Location.Column - 1 },
-            ConsoleKey.S when _player.Location.Row + 1 < _cave.Rows => _player.Location with { Row = _player.Location.Row + 1 },
-            ConsoleKey.D when _player.Location.Column + 1 < _cave.Columns => _player.Location with { Column = _player.Location.Column + 1 },
-            _ => _player.Location
-        };
-        
-        _player.UpdateLocation(desiredLocation);
     }
     
     private void Display()
@@ -72,15 +57,26 @@ public class Game
 }
 
 
-public class Player()
+public class Player(int caveRows, int caveColumns)
 {
     public Location Location { get; private set; } = new Location { Row = 0, Column = 0};
     
-    public ConsoleKey GetInput() => Console.ReadKey(true).Key;
+    private ConsoleKey GetInput() => Console.ReadKey(true).Key;
 
-    public void UpdateLocation(Location location)
+    public void Move()
     {
-        Location = location;
+        Location desiredLocation = new Location(Location.Row, Location.Column);
+        
+        desiredLocation = GetInput() switch
+        {
+            ConsoleKey.W when Location.Row - 1 >= 0 => Location with { Row = Location.Row - 1 },
+            ConsoleKey.A when Location.Column - 1 >= 0 => Location with { Column = Location.Column - 1 },
+            ConsoleKey.S when Location.Row + 1 < caveRows => Location with { Row = Location.Row + 1 },
+            ConsoleKey.D when Location.Column + 1 < caveColumns => Location with { Column = Location.Column + 1 },
+            _ => Location
+        };
+
+        Location = desiredLocation;
     }
 }
 
@@ -104,8 +100,13 @@ public class Cave
                 Rooms[row, column] = new Room(RoomType.Empty, new Location { Row = row, Column = column});
             }
         }
-
-        // TODO possible implementation of different Rooms? Rooms[0, 0] = new Room(RoomType.Entrance, new Location(0, 0));
+        
+        Random random = new Random();
+        int randomRow = random.Next(1, Rows);
+        int randomColumn = random.Next(1, Columns);
+        
+        Rooms[0, 0] = new Room(RoomType.Entrance, new Location { Row = 0, Column = 0 });
+        Rooms[randomRow, randomColumn] = new Room(RoomType.Fountain, new Location { Row = randomRow, Column = randomColumn });
     }
 
     public Room GetRoomAt(Location location) => Rooms[location.Row, location.Column];
