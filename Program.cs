@@ -9,12 +9,14 @@ public class Game
 {
     private Player _player;
     private Cave _cave;
+    private Sense _sense;
     private Room _currentRoom;
 
     public Game(Player player, Cave cave)
     {
         _player = player;
         _cave = cave;
+        _sense = new Sense(player, cave);
         _currentRoom = _cave.GetRoomAt(_player.Location);
     }
 
@@ -27,6 +29,7 @@ public class Game
             Display();
             Console.WriteLine(_player.Location);
             Console.WriteLine(_currentRoom.Type);
+            _sense.DisplaySense();
             _player.Move();
         }
     }
@@ -56,6 +59,68 @@ public class Game
     }
 }
 
+public class Sense(Player player, Cave cave)
+{
+    private List<Room> _adjacentRooms;
+    private List<Location> _adjacentLocations;
+
+
+    public void DisplaySense()
+    {
+        GetAdjacentLocations();
+        GetAdjacentRooms();
+
+        foreach (Room room in _adjacentRooms)
+        {
+            string sense = room.Type switch
+            {
+                RoomType.Empty => null,
+                RoomType.Entrance => "You see light from outside the cave. You are near the entrance.",
+                RoomType.Fountain => "You hear a faint dripping nearby. The fountain is close.",
+                RoomType.Pit => "You hear the howling of a hungry chasm. A pit is nearby."
+            };
+
+            if (sense != null)
+            {
+                Console.WriteLine(sense);
+            }
+        }
+    }
+    
+    private void GetAdjacentRooms()
+    {
+        _adjacentRooms = new List<Room>();
+        
+        foreach (Location location in _adjacentLocations)
+        {
+            _adjacentRooms.Add(cave.GetRoomAt(location));
+        }
+    }
+
+    private void GetAdjacentLocations()
+    {
+        _adjacentLocations = new List<Location>();
+        if (player.Location.Row - 1 >= 0)
+        {
+            _adjacentLocations.Add(player.Location with { Row = player.Location.Row - 1 });
+        }
+
+        if (player.Location.Row + 1 < cave.Rows)
+        {
+            _adjacentLocations.Add(player.Location with { Row = player.Location.Row + 1 });
+        }
+
+        if (player.Location.Column - 1 >= 0)
+        {
+            _adjacentLocations.Add(player.Location with { Column = player.Location.Column - 1});
+        }
+
+        if (player.Location.Column + 1 < cave.Columns)
+        {
+            _adjacentLocations.Add(player.Location with{ Column = player.Location.Column + 1});
+        }
+    }
+}
 
 public class Player(int caveRows, int caveColumns)
 {
