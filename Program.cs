@@ -67,28 +67,48 @@ public class Sense(Player player, Cave cave)
 
     public void DisplaySense()
     {
-        GetAdjacentLocations();
-        GetAdjacentRooms();
+        SetAdjacentLocations();
+        SetAdjacentRooms();
+        Room currentRoom = GetCurrentRoom();
 
+        string? currentRoomSense = currentRoom.Type switch
+        {
+            RoomType.Empty => null,
+            RoomType.Entrance => "You see light from outside the cave. You are at the entrance.",
+            RoomType.Fountain => "You see the silhouette of a large fountain. You are in the fountain room.",
+            RoomType.Pit => "You lose your footing and tumble into a vast chasm. You have died.",
+            _ => "ERROR: CURRENT ROOM UNACCOUNTED FOR."
+        };
+        
+        if (currentRoomSense != null)
+        {
+            Console.WriteLine(currentRoomSense);
+        }
+        
         foreach (Room room in _adjacentRooms)
         {
-            string? sense = room.Type switch
+            string? adjacentSense = room.Type switch
             {
                 RoomType.Empty => null,
-                RoomType.Entrance => "You see light from outside the cave. You are near the entrance.",
+                RoomType.Entrance => null,
                 RoomType.Fountain => "You hear a faint dripping nearby. The fountain is close.",
                 RoomType.Pit => "You hear the howling of a hungry chasm. A pit is nearby.",
-                _ => "ROOM UNACCOUNTED FOR."
+                _ => "ERROR: ADJACENT ROOM UNACCOUNTED FOR."
             };
-
-            if (sense != null)
+            
+            if (adjacentSense != null)
             {
-                Console.WriteLine(sense);
+                Console.WriteLine(adjacentSense);
             }
         }
     }
+
+    private Room GetCurrentRoom()
+    {
+        return cave.GetRoomAt(player.Location);
+    }
     
-    private void GetAdjacentRooms()
+    private void SetAdjacentRooms()
     {
         _adjacentRooms = new List<Room>();
         
@@ -97,8 +117,8 @@ public class Sense(Player player, Cave cave)
             _adjacentRooms.Add(cave.GetRoomAt(location));
         }
     }
-
-    private void GetAdjacentLocations()
+    
+    private void SetAdjacentLocations()
     {
         _adjacentLocations = new List<Location>();
         if (player.Location.Row - 1 >= 0)
