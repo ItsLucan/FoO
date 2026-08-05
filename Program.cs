@@ -72,12 +72,13 @@ public class Sense(Player player, Cave cave)
 
         foreach (Room room in _adjacentRooms)
         {
-            string sense = room.Type switch
+            string? sense = room.Type switch
             {
                 RoomType.Empty => null,
                 RoomType.Entrance => "You see light from outside the cave. You are near the entrance.",
                 RoomType.Fountain => "You hear a faint dripping nearby. The fountain is close.",
-                RoomType.Pit => "You hear the howling of a hungry chasm. A pit is nearby."
+                RoomType.Pit => "You hear the howling of a hungry chasm. A pit is nearby.",
+                _ => "ROOM UNACCOUNTED FOR."
             };
 
             if (sense != null)
