@@ -24,6 +24,10 @@ public class Game
     {
         while (true)
         {
+            if (_cave.GetRoomAt(_player.Location).Type == RoomType.Pit)
+            {
+                return;
+            }
             Console.Clear();
             UpdatePlayerRoom();
             Display();
@@ -186,18 +190,41 @@ public class Cave
                 Rooms[row, column] = new Room(RoomType.Empty, new Location { Row = row, Column = column});
             }
         }
-        
-        Random random = new Random();
-        int randomRow = random.Next(1, Rows);
-        int randomColumn = random.Next(1, Columns);
+
         
         Rooms[0, 0] = new Room(RoomType.Entrance, new Location { Row = 0, Column = 0 });
-        Rooms[randomRow, randomColumn] = new Room(RoomType.Fountain, new Location { Row = randomRow, Column = randomColumn });
+        Rooms[,] = new Room(RoomType.Fountain, new Location { Row = , Column =});
+        Rooms[]
     }
-
     public Room GetRoomAt(Location location) => Rooms[location.Row, location.Column];
 }
 
+public class Randomizer
+{
+    private Random _random = new Random();
+    private readonly int _maxRows;
+    private readonly int _maxColumns;
+    private int _row;
+    private int _column;
+    private List<Location> _randomLocations = new List<Location>();
+    public Randomizer(int maxRows, int maxColumns)
+    {
+        _maxRows = maxRows;
+        _maxColumns = maxColumns;
+    }
+
+    public Location GetRandomLocation()
+    {
+        _row = _random.Next(1, _maxRows);
+        _column = _random.Next(1, _maxColumns);
+        Location randomLocation = new Location(_row, _column);
+        while (true)
+        {
+            if (_randomLocations.Any(randomLocation))
+        }
+    }
+    
+}
 
 public class Room(RoomType type, Location location)
 {
