@@ -1,6 +1,6 @@
 ﻿using System.Data;
 
-Cave cave = new Cave(4, 4);
+Cave cave = new Cave();
 Player player = new Player(cave.Rows, cave.Columns);
 Game game = new Game(player, cave);
 
@@ -179,13 +179,12 @@ public class Cave
     public Room[,] Rooms { get; }
     public int Rows { get; }
     public int Columns { get; }
-    private Randomizer _randomizer;
-    public Cave(int rows, int columns)
+    private Randomizer _randomizer = new Randomizer();
+    public Cave()
     {
-        Rows = rows;
-        Columns = columns;
+        Rows = _randomizer.MaxRows;
+        Columns = _randomizer.MaxColumns;
         Rooms = new Room[Rows, Columns];
-        _randomizer = new Randomizer(Rows, Columns);
             
         for (int row = 0; row < Rooms.GetLength(0); row++)
         {
@@ -208,21 +207,21 @@ public class Cave
 public class Randomizer
 {
     private Random _random = new Random();
-    private readonly int _maxRows;
-    private readonly int _maxColumns;
+    public  int MaxRows { get; }
+    public int MaxColumns { get; } 
     private int _row;
     private int _column;
     private List<Location> _randomLocations = new List<Location>();
-    public Randomizer(int maxRows, int maxColumns)
+    public Randomizer()
     {
-        _maxRows = maxRows;
-        _maxColumns = maxColumns;
+        MaxRows = _random.Next(3, 10);
+        MaxColumns = _random.Next(3, 10);
     }
 
     public Location GetRandomLocation()
     {
-        _row = _random.Next(1, _maxRows);
-        _column = _random.Next(1, _maxColumns);
+        _row = _random.Next(1, MaxRows);
+        _column = _random.Next(1, MaxColumns);
         Location randomLocation = new Location(_row, _column);
         while (true)
         {
@@ -232,7 +231,7 @@ public class Randomizer
                     return randomLocation;
                 }
 
-                randomLocation = new Location(_random.Next(1, _maxRows), _random.Next(1, _maxColumns));
+                randomLocation = new Location(_random.Next(1, MaxRows), _random.Next(1, MaxColumns));
         }
     }
     
