@@ -74,7 +74,7 @@ public class Sense(Player player, Cave cave)
     {
         SetAdjacentLocations();
         SetAdjacentRooms();
-        Room currentRoom = GetCurrentRoom();
+        Room currentRoom = cave.GetRoomAt(player.Location);
 
         string? currentRoomSense = currentRoom.Type switch
         {
@@ -106,11 +106,6 @@ public class Sense(Player player, Cave cave)
                 Console.WriteLine(adjacentSense);
             }
         }
-    }
-
-    private Room GetCurrentRoom()
-    {
-        return cave.GetRoomAt(player.Location);
     }
     
     private void SetAdjacentRooms()
