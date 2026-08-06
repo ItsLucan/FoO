@@ -30,21 +30,22 @@ public class Game
             Console.WriteLine(_player.Location);
             Console.WriteLine(_currentRoom.Type);
             _sense.DisplaySense();
-            if (_cave.GetRoomAt(_player.Location).Type == RoomType.Pit)
+            if (_cave.GetRoomAt(_player.Location) is PitRoom)
             {
                 Console.ReadKey(true);
                 return;
             }
-            _player.Move();
+            _player.GetInput();
         }
     }
-    private void CheckForRepair(FountainRoom fountainRoom)
+    private void CheckForRepair()
     {
-        if (_currentRoom == fountainRoom)
+        if (_player.IsTryingToRepair() && _currentRoom is FountainRoom fountain)
         {
-            
+            fountain.Repair();
         }
     }
+    
     private void UpdatePlayerRoom()
     {
         if (!_player.Location.Equals(_currentRoom.Location))
@@ -164,9 +165,21 @@ public class Player(int caveRows, int caveColumns)
             ConsoleKey.S => InputActions.MoveDown,
             ConsoleKey.D => InputActions.MoveRight
         };
+        
+        CheckForMove();
     }
 
-    private void Move()
+    public bool IsTryingToRepair()
+    {
+        if (_inputAction == InputActions.Repair)
+        {
+            return true;
+        }
+
+        return false;
+    }
+    
+    private void CheckForMove()
     {
         Location? desiredLocation = new Location(Location.Row, Location.Column);
         desiredLocation = _inputAction switch
@@ -265,10 +278,10 @@ public class PitRoom(Location location) : Room(location)
 public class FountainRoom(Location location) : Room(location)
 {
     public override RoomType Type { get; } = RoomType.Fountain;
-    public bool IsRepaired { get; private set; } = false;
+    private bool _isRepaired = false;
     public void Repair()
     {
-        IsRepaired = true;
+        _isRepaired = true;
     }
 }
 
