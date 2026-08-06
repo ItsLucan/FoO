@@ -1,4 +1,6 @@
-﻿Cave cave = new Cave(4, 4);
+﻿using System.Data;
+
+Cave cave = new Cave(4, 4);
 Player player = new Player(cave.Rows, cave.Columns);
 Game game = new Game(player, cave);
 
@@ -24,16 +26,17 @@ public class Game
     {
         while (true)
         {
-            if (_cave.GetRoomAt(_player.Location).Type == RoomType.Pit)
-            {
-                return;
-            }
             Console.Clear();
             UpdatePlayerRoom();
             Display();
             Console.WriteLine(_player.Location);
             Console.WriteLine(_currentRoom.Type);
             _sense.DisplaySense();
+            if (_cave.GetRoomAt(_player.Location).Type == RoomType.Pit)
+            {
+                Console.ReadKey(true);
+                return;
+            }
             _player.Move();
         }
     }
@@ -176,13 +179,14 @@ public class Cave
     public Room[,] Rooms { get; }
     public int Rows { get; }
     public int Columns { get; }
-    
+    private Randomizer _randomizer;
     public Cave(int rows, int columns)
     {
         Rows = rows;
         Columns = columns;
         Rooms = new Room[Rows, Columns];
-        
+        _randomizer = new Randomizer(Rows, Columns);
+            
         for (int row = 0; row < Rooms.GetLength(0); row++)
         {
             for (int column = 0; column < Rooms.GetLength(1); column++)
@@ -191,11 +195,13 @@ public class Cave
             }
         }
 
-        
+        Location randomLocation1 = _randomizer.GetRandomLocation();
+        Location randomLocation2 = _randomizer.GetRandomLocation();
         Rooms[0, 0] = new Room(RoomType.Entrance, new Location { Row = 0, Column = 0 });
-        Rooms[,] = new Room(RoomType.Fountain, new Location { Row = , Column =});
-        Rooms[]
+        Rooms[randomLocation1.Row,randomLocation1.Column] = new Room(RoomType.Fountain, randomLocation1);
+        Rooms[randomLocation2.Row, randomLocation2.Column] = new Room(RoomType.Pit, randomLocation2);
     }
+    
     public Room GetRoomAt(Location location) => Rooms[location.Row, location.Column];
 }
 
@@ -220,7 +226,13 @@ public class Randomizer
         Location randomLocation = new Location(_row, _column);
         while (true)
         {
-            if (_randomLocations.Any(randomLocation))
+                if (!_randomLocations.Contains(randomLocation))
+                {
+                    _randomLocations.Add(randomLocation);
+                    return randomLocation;
+                }
+
+                randomLocation = new Location(_random.Next(1, _maxRows), _random.Next(1, _maxColumns));
         }
     }
     
