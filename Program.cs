@@ -38,7 +38,13 @@ public class Game
             _player.Move();
         }
     }
-
+    private void CheckForRepair(FountainRoom fountainRoom)
+    {
+        if (_currentRoom == fountainRoom)
+        {
+            
+        }
+    }
     private void UpdatePlayerRoom()
     {
         if (!_player.Location.Equals(_currentRoom.Location))
@@ -146,24 +152,40 @@ public class Sense(Player player, Cave cave)
 public class Player(int caveRows, int caveColumns)
 {
     public Location Location { get; private set; } = new Location { Row = 0, Column = 0};
-    
-    private ConsoleKey GetInput() => Console.ReadKey(true).Key;
-
-    public void Move()
+    private ConsoleKey GetKeyPress() => Console.ReadKey(true).Key;
+    private InputActions _inputAction;
+    public void GetInput()
     {
-        Location desiredLocation = new Location(Location.Row, Location.Column);
-        
-        desiredLocation = GetInput() switch
+        _inputAction = GetKeyPress switch
         {
-            ConsoleKey.W when Location.Row - 1 >= 0 => Location with { Row = Location.Row - 1 },
-            ConsoleKey.A when Location.Column - 1 >= 0 => Location with { Column = Location.Column - 1 },
-            ConsoleKey.S when Location.Row + 1 < caveRows => Location with { Row = Location.Row + 1 },
-            ConsoleKey.D when Location.Column + 1 < caveColumns => Location with { Column = Location.Column + 1 },
+            ConsoleKey.R => InputActions.Repair,
+            ConsoleKey.W => InputActions.MoveUp,
+            ConsoleKey.A => InputActions.MoveLeft,
+            ConsoleKey.S => InputActions.MoveDown,
+            ConsoleKey.D => InputActions.MoveRight
+        };
+    }
+
+    private void Move()
+    {
+        Location? desiredLocation = new Location(Location.Row, Location.Column);
+        desiredLocation = _inputAction switch
+        {
+            InputActions.Repair => null,
+            InputActions.MoveUp when Location.Row - 1 >= 0 => Location with { Row = Location.Row - 1 },
+            InputActions.MoveLeft when Location.Column - 1 >= 0 => Location with { Column = Location.Column - 1 },
+            InputActions.MoveDown when Location.Row + 1 < caveRows => Location with { Row = Location.Row + 1 },
+            InputActions.MoveRight when Location.Column + 1 < caveColumns => Location with { Column = Location.Column + 1 },
             _ => Location
         };
 
-        Location = desiredLocation;
+        if (desiredLocation is not null)
+        {
+            Location = (Location)desiredLocation;
+        }
     }
+    
+    private enum InputActions { MoveUp, MoveDown, MoveLeft, MoveRight, Repair }
 }
 
 
@@ -183,15 +205,15 @@ public class Cave
         {
             for (int column = 0; column < Rooms.GetLength(1); column++)
             {
-                Rooms[row, column] = new Room(RoomType.Empty, new Location { Row = row, Column = column});
+                Rooms[row, column] = new Room(new Location { Row = row, Column = column});
             }
         }
 
         Location randomLocation1 = _randomizer.GetRandomLocation();
         Location randomLocation2 = _randomizer.GetRandomLocation();
-        Rooms[0, 0] = new Room(RoomType.Entrance, new Location { Row = 0, Column = 0 });
-        Rooms[randomLocation1.Row,randomLocation1.Column] = new Room(RoomType.Fountain, randomLocation1);
-        Rooms[randomLocation2.Row, randomLocation2.Column] = new Room(RoomType.Pit, randomLocation2);
+        Rooms[0, 0] = new Room(new Location { Row = 0, Column = 0 });
+        Rooms[randomLocation1.Row,randomLocation1.Column] = new FountainRoom(randomLocation1);
+        Rooms[randomLocation2.Row, randomLocation2.Column] = new PitRoom(randomLocation2);
     }
     
     public Room GetRoomAt(Location location) => Rooms[location.Row, location.Column];
@@ -230,13 +252,37 @@ public class Randomizer
     
 }
 
-public class Room(RoomType type, Location location)
+public class EntranceRoom(Location location) : Room(location)
 {
-    
-    public RoomType Type { get; } = type;
-    public bool IsPlayerHere { get; private set; }
-    public Location Location { get; } = location;
+    public override RoomType Type { get; } = RoomType.Entrance;
+}
 
+public class PitRoom(Location location) : Room(location)
+{
+    public override RoomType Type { get; } = RoomType.Pit;
+}
+
+public class FountainRoom(Location location) : Room(location)
+{
+    public override RoomType Type { get; } = RoomType.Fountain;
+    public bool IsRepaired { get; private set; } = false;
+    public void Repair()
+    {
+        IsRepaired = true;
+    }
+}
+
+public class Room
+{
+
+    public virtual RoomType Type { get; } = RoomType.Empty;
+    public bool IsPlayerHere { get; private set; }
+    public Location Location { get; }
+
+    public Room(Location location)
+    {
+        Location = location;
+    }
     public void SetPlayerHere(bool isHere)
     {
         IsPlayerHere = isHere;
