@@ -11,7 +11,6 @@ public class Game
     private Cave _cave;
     private Sense _sense;
     private Room _currentRoom;
-
     public Game(Player player, Cave cave)
     {
         _player = player;
@@ -28,21 +27,25 @@ public class Game
             UpdatePlayerRoom();
             Display();
             Console.WriteLine(_player.Location);
-            Console.WriteLine(_currentRoom.Type);
-            _sense.DisplaySense();
-            if (_cave.GetRoomAt(_player.Location) is PitRoom)
+            Console.WriteLine(_currentRoom);
+            _sense.Display();
+            if (_currentRoom is PitRoom)
+            {
+                Console.ReadKey(true);
+                return;
+            }
+           
+            if (_currentRoom is EntranceRoom && _cave.FountainRoom.IsRepaired)
             {
                 Console.ReadKey(true);
                 return;
             }
             _player.GetInput();
-        }
-    }
-    private void CheckForRepair()
-    {
-        if (_player.IsTryingToRepair() && _currentRoom is FountainRoom fountain)
-        {
-            fountain.Repair();
+            
+            if (_currentRoom is FountainRoom && _player.IsInputtingRepair())
+            {
+                _cave.FountainRoom.Repair();
+            }
         }
     }
     
@@ -75,44 +78,58 @@ public class Sense(Player player, Cave cave)
 {
     private List<Room> _adjacentRooms;
     private List<Location> _adjacentLocations;
-
-
-    public void DisplaySense()
+    
+    public void Display()
     {
         SetAdjacentLocations();
         SetAdjacentRooms();
-        Room currentRoom = cave.GetRoomAt(player.Location);
-
-        string? currentRoomSense = currentRoom.Type switch
+        string? currentSense = GetCurrentSense();
+        string? adjacentSense;
+        if (currentSense != null)
         {
-            RoomType.Empty => null,
-            RoomType.Entrance => "You see light from outside the cave. You are at the entrance.",
-            RoomType.Fountain => "You see the silhouette of a large fountain. You are in the fountain room.",
-            RoomType.Pit => "You lose your footing and tumble into a vast chasm. You have died.",
-            _ => "ERROR: CURRENT ROOM UNACCOUNTED FOR."
-        };
-        
-        if (currentRoomSense != null)
-        {
-            Console.WriteLine(currentRoomSense);
+            Console.WriteLine(currentSense);
         }
         
         foreach (Room room in _adjacentRooms)
         {
-            string? adjacentSense = room.Type switch
-            {
-                RoomType.Empty => null,
-                RoomType.Entrance => null,
-                RoomType.Fountain => "You hear a faint dripping nearby. The fountain is close.",
-                RoomType.Pit => "You hear the howling of a hungry chasm. A pit is nearby.",
-                _ => "ERROR: ADJACENT ROOM UNACCOUNTED FOR."
-            };
-            
+            adjacentSense = GetAdjacentSense(room);
             if (adjacentSense != null)
             {
                 Console.WriteLine(adjacentSense);
             }
         }
+    }
+
+    private string? GetCurrentSense()
+    {
+        Room currentRoom = cave.GetRoomAt(player.Location);
+        
+        string? currentRoomSense = currentRoom switch
+        {
+            EntranceRoom when cave.FountainRoom.IsRepaired => "You see a light in front of you and escape the cave. You have conquered The Uncoded Ones challenge.", 
+            EntranceRoom => "You see light from outside the cave. You are at the entrance.",
+            FountainRoom when cave.FountainRoom.IsRepaired => "Water rushes from the Fountain of objects. It is repaired.",
+            FountainRoom => "You see the silhouette of a large fountain. You are in the fountain room.",
+            PitRoom => "You lose your footing and tumble into a vast chasm. You have died.",
+            Room => null,
+            _ => "ERROR: CURRENT ROOM UNACCOUNTED FOR."
+        };
+
+        return currentRoomSense;
+    }
+
+    private string? GetAdjacentSense(Room currentRoom)
+    {
+        string? adjacentSense = currentRoom switch
+        {
+            EntranceRoom => null,
+            FountainRoom => "You hear a faint dripping nearby. The fountain is close.",
+            PitRoom => "You hear the howling of a hungry chasm. A pit is nearby.",
+            Room => null,
+            _ => "ERROR: ADJACENT ROOM UNACCOUNTED FOR."
+        };
+
+        return adjacentSense;
     }
     
     private void SetAdjacentRooms()
@@ -157,24 +174,22 @@ public class Player(int caveRows, int caveColumns)
     private InputActions _inputAction;
     public void GetInput()
     {
-        _inputAction = GetKeyPress switch
+        _inputAction = GetKeyPress() switch
         {
             ConsoleKey.R => InputActions.Repair,
             ConsoleKey.W => InputActions.MoveUp,
             ConsoleKey.A => InputActions.MoveLeft,
             ConsoleKey.S => InputActions.MoveDown,
-            ConsoleKey.D => InputActions.MoveRight
+            ConsoleKey.D => InputActions.MoveRight,
+            _ => InputActions.UnAccounted
         };
         
         CheckForMove();
     }
 
-    public bool IsTryingToRepair()
+    public bool IsInputtingRepair()
     {
-        if (_inputAction == InputActions.Repair)
-        {
-            return true;
-        }
+        if (_inputAction == InputActions.Repair) return true;
 
         return false;
     }
@@ -198,7 +213,7 @@ public class Player(int caveRows, int caveColumns)
         }
     }
     
-    private enum InputActions { MoveUp, MoveDown, MoveLeft, MoveRight, Repair }
+    private enum InputActions { MoveUp, MoveDown, MoveLeft, MoveRight, Repair, UnAccounted }
 }
 
 
@@ -207,6 +222,12 @@ public class Cave
     public Room[,] Rooms { get; }
     public int Rows { get; }
     public int Columns { get; }
+    private Location _fountainLocation;
+    private Location _pitLocation;
+
+    public FountainRoom FountainRoom { get; }
+    public PitRoom PitRoom { get; }
+    
     private Randomizer _randomizer = new Randomizer();
     public Cave()
     {
@@ -222,11 +243,13 @@ public class Cave
             }
         }
 
-        Location randomLocation1 = _randomizer.GetRandomLocation();
-        Location randomLocation2 = _randomizer.GetRandomLocation();
-        Rooms[0, 0] = new Room(new Location { Row = 0, Column = 0 });
-        Rooms[randomLocation1.Row,randomLocation1.Column] = new FountainRoom(randomLocation1);
-        Rooms[randomLocation2.Row, randomLocation2.Column] = new PitRoom(randomLocation2);
+        _fountainLocation = _randomizer.GetRandomLocation();
+        _pitLocation = _randomizer.GetRandomLocation();
+        FountainRoom = new FountainRoom(_fountainLocation);
+        PitRoom = new PitRoom(_pitLocation);
+        Rooms[0, 0] = new EntranceRoom(new Location { Row = 0, Column = 0 });
+        Rooms[_fountainLocation.Row, _fountainLocation.Column] = FountainRoom;
+        Rooms[_pitLocation.Row, _pitLocation.Column] = PitRoom;
     }
     
     public Room GetRoomAt(Location location) => Rooms[location.Row, location.Column];
@@ -267,28 +290,28 @@ public class Randomizer
 
 public class EntranceRoom(Location location) : Room(location)
 {
-    public override RoomType Type { get; } = RoomType.Entrance;
+    protected override RoomType Type { get; } = RoomType.Entrance;
 }
 
 public class PitRoom(Location location) : Room(location)
 {
-    public override RoomType Type { get; } = RoomType.Pit;
+    protected override RoomType Type { get; } = RoomType.Pit;
 }
 
 public class FountainRoom(Location location) : Room(location)
 {
-    public override RoomType Type { get; } = RoomType.Fountain;
-    private bool _isRepaired = false;
+    protected override RoomType Type { get; } = RoomType.Fountain;
+    public bool IsRepaired { get; private set; }
     public void Repair()
     {
-        _isRepaired = true;
+        IsRepaired = true;
     }
 }
 
 public class Room
 {
 
-    public virtual RoomType Type { get; } = RoomType.Empty;
+    protected virtual RoomType Type { get; } = RoomType.Empty;
     public bool IsPlayerHere { get; private set; }
     public Location Location { get; }
 
@@ -300,9 +323,9 @@ public class Room
     {
         IsPlayerHere = isHere;
     }
+    
+    protected enum RoomType { Empty, Fountain, Pit, Entrance }
 }
 
 
 public readonly record struct Location(int Row, int Column);
-
-public enum RoomType { Empty, Fountain, Pit, Entrance }
