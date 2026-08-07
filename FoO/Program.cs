@@ -268,14 +268,14 @@ public class Randomizer
     private List<Location> _randomLocations = new List<Location>();
     public Randomizer()
     {
-        MaxRows = _random.Next(4, 10);
-        MaxColumns = _random.Next(4, 10);
+        MaxRows = _random.Next(5, 10);
+        MaxColumns = _random.Next(5, 10);
     }
 
     public Location GetRandomLocation()
     {
-        _row = _random.Next(1, MaxRows);
-        _column = _random.Next(1, MaxColumns);
+        _row = _random.Next(2, MaxRows);
+        _column = _random.Next(2, MaxColumns);
         Location randomLocation = new Location(_row, _column);
         while (true)
         {
@@ -291,15 +291,18 @@ public class Randomizer
     
 }
 
+
 public class EntranceRoom(Location location) : Room(location)
 {
     protected override RoomType Type { get; } = RoomType.Entrance;
 }
 
+
 public class PitRoom(Location location) : Room(location)
 {
     protected override RoomType Type { get; } = RoomType.Pit;
 }
+
 
 public class FountainRoom(Location location) : Room(location)
 {
@@ -311,9 +314,9 @@ public class FountainRoom(Location location) : Room(location)
     }
 }
 
+
 public class Room
 {
-
     protected virtual RoomType Type { get; } = RoomType.Empty;
     public bool IsPlayerHere { get; private set; }
     public Location Location { get; }
