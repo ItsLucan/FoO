@@ -268,8 +268,8 @@ public class Randomizer
     private List<Location> _randomLocations = new List<Location>();
     public Randomizer()
     {
-        MaxRows = _random.Next(3, 10);
-        MaxColumns = _random.Next(3, 10);
+        MaxRows = _random.Next(4, 10);
+        MaxColumns = _random.Next(4, 10);
     }
 
     public Location GetRandomLocation()
