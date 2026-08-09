@@ -14,7 +14,7 @@ public class Randomizer
         MaxColumns = _random.Next(5, 10);
     }
 
-    public Location GetRandomLocation()
+    public Location GetRandomRoomSpawnLocation()
     {
         _row = _random.Next(2, MaxRows);
         _column = _random.Next(2, MaxColumns);
@@ -30,5 +30,11 @@ public class Randomizer
             randomLocation = new Location(_random.Next(1, MaxRows), _random.Next(1, MaxColumns));
         }
     }
-    
+
+    public Location GetRandomLocation()
+    {
+        _row = _random.Next(0, MaxRows);
+        _column = _random.Next(0, MaxColumns);
+        return new Location(_row, _column);
+    }
 }

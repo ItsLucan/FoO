@@ -9,24 +9,32 @@ public class Sense(Player player, Cave cave)
     {
         SetAdjacentLocations();
         SetAdjacentRooms();
-        string? currentSense = GetCurrentSense();
-        string? adjacentSense;
-        if (currentSense != null)
+        (string? currentRoomTypeSense, string? currentEnemyTypeSense) = GetCurrentSenses();
+        if (currentRoomTypeSense != null)
         {
-            Console.WriteLine(currentSense);
+            Console.WriteLine(currentRoomTypeSense);
         }
-        
+        if (currentEnemyTypeSense != null)
+        {
+            Console.WriteLine(currentEnemyTypeSense);
+        }
         foreach (Room room in _adjacentRooms)
         {
-            adjacentSense = GetAdjacentSense(room);
-            if (adjacentSense != null)
+            (string? adjacentRoomSense, string? adjacentEnemySense) = GetAdjacentRoomTypeSense(room);
+            
+            if (adjacentRoomSense != null)
             {
-                Console.WriteLine(adjacentSense);
+                Console.WriteLine(adjacentRoomSense);
+            }
+
+            if (adjacentEnemySense != null)
+            {
+                Console.WriteLine(adjacentEnemySense);
             }
         }
     }
 
-    private string? GetCurrentSense()
+    private (string? currentRoom, string? currentEnemy) GetCurrentSenses()
     {
         Room currentRoom = cave.GetRoomAt(player.Location);
         
@@ -37,25 +45,41 @@ public class Sense(Player player, Cave cave)
             FountainRoom when cave.FountainRoom.IsRepaired => "Water rushes from the Fountain of objects. It is repaired.",
             FountainRoom => "You see the silhouette of a large fountain. You are in the fountain room.",
             PitRoom => "You lose your footing and tumble into a vast chasm. You have died.",
-            Room => null,
+            EmptyRoom => null,
             _ => "ERROR: CURRENT ROOM UNACCOUNTED FOR."
         };
 
-        return currentRoomSense;
+        string? currentEnemySense = currentRoom.Enemy switch
+        {
+            EnemyType.None => null,
+            EnemyType.Maelstrom => "You stumble into the torrential storm of a Maelstrom. You both are sent flying through the cave.",
+            EnemyType.Amarok => "You waltz into the maw of a foul Amarok, who rends your flesh. You have died.",
+            _ => "ERROR: CURRENT ENEMY UNACCOUNTED FOR."
+        };
+
+        return (currentRoomSense, currentEnemySense);
     }
 
-    private string? GetAdjacentSense(Room currentRoom)
+    private (string? adjacentRoom, string? adjacentEnemy) GetAdjacentRoomTypeSense(Room currentRoom)
     {
-        string? adjacentSense = currentRoom switch
+        string? adjacentRoom = currentRoom switch
         {
             EntranceRoom => null,
             FountainRoom => "You hear a faint dripping nearby. The fountain is close.",
             PitRoom => "You hear the howling of a hungry chasm. A pit is nearby.",
-            Room => null,
+            EmptyRoom => null,
             _ => "ERROR: ADJACENT ROOM UNACCOUNTED FOR."
         };
 
-        return adjacentSense;
+        string? adjacentEnemy = currentRoom.Enemy switch
+        {
+            EnemyType.None => null,
+            EnemyType.Maelstrom => "You hear the ghastly wailing of a Maelstrom nearby.",
+            EnemyType.Amarok => "You smell the pungent odor of rotten flesh. An Amarok is nearby.",
+            _ => "ERROR: ADJACENT ENEMY UNACCOUNTED FOR."
+            
+        };
+        return (adjacentRoom, adjacentEnemy);
     }
     
     private void SetAdjacentRooms()

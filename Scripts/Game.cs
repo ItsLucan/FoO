@@ -4,12 +4,14 @@ public class Game
 {
     private Player _player;
     private Cave _cave;
+    private Randomizer _randomizer;
     private Sense _sense;
     private Room _currentRoom;
-    public Game(Player player, Cave cave)
+    public Game(Player player, Cave cave, Randomizer randomizer)
     {
         _player = player;
         _cave = cave;
+        _randomizer = randomizer;
         _sense = new Sense(player, cave);
         _currentRoom = _cave.GetRoomAt(_player.Location);
     }
@@ -24,12 +26,20 @@ public class Game
             Console.WriteLine(_player.Location);
             Console.WriteLine(_currentRoom);
             _sense.Display();
-            if (_currentRoom is PitRoom || _currentRoom is EntranceRoom && _cave.FountainRoom.IsRepaired)
+            if (_currentRoom is PitRoom 
+                || _currentRoom is EntranceRoom && _cave.FountainRoom.IsRepaired
+                || _currentRoom.Enemy is EnemyType.Amarok)
             {
                 Console.ReadKey(true);
                 return;
             }
-          
+
+            if (_currentRoom.Enemy == EnemyType.Maelstrom)
+            {
+                _player.Teleport(_randomizer.GetRandomLocation());
+                _cave.MoveMaelstrom(_randomizer.GetRandomLocation());
+            }
+            
             _player.GetInput();
             
             if (_currentRoom is FountainRoom && _player.IsInputtingRepair())

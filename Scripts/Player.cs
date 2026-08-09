@@ -4,6 +4,12 @@ public class Player(int caveRows, int caveColumns)
 {
     public Location Location { get; private set; } = new Location { Row = 0, Column = 0};
     private InputActions _inputAction;
+
+    public void Teleport(Location location)
+    {
+        Location = location;
+    }
+    
     public void GetInput()
     {
         _inputAction = Console.ReadKey(true).Key switch
