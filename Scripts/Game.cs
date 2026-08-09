@@ -6,13 +6,15 @@ public class Game
     private Cave _cave;
     private Sensor _sensor;
     private Room _currentRoom;
-    public bool IsFountainRepaired { get; private set; } = false;
+    private List<Location> _adjacentLocations = new List<Location>();
+    private List<Room> _adjacentRooms = new List<Room>();
+    private bool _isFountainRepaired = false;
     public Game(Player player, Cave cave)
     {
         _player = player;
         _cave = cave;
-        _sensor = new Sensor(player, cave);
         _currentRoom = _cave.GetRoomAt(_player.Location);
+        _sensor = new Sensor(_currentRoom, _adjacentRooms, _isFountainRepaired);
     }
 
     public void Run()
@@ -24,9 +26,11 @@ public class Game
             Display();
             Console.WriteLine(_player.Location);
             Console.WriteLine(_currentRoom);
+            SetAdjacentLocations();
+            SetAdjacentRooms();
             _sensor.GetSenses();
             if (_currentRoom.RoomType is RoomType.Pit
-                || _currentRoom.RoomType is RoomType.Entrance && IsFountainRepaired
+                || _currentRoom.RoomType is RoomType.Entrance && _isFountainRepaired
                 || _currentRoom.EnemyType is EnemyType.Amarok)
             {
                 Console.ReadKey(true);
@@ -43,7 +47,7 @@ public class Game
             
             if (_currentRoom.RoomType is RoomType.Fountain && _player.IsInputtingRepair())
             {
-                IsFountainRepaired = true;
+                _isFountainRepaired = true;
             }
         }
     }
@@ -58,6 +62,21 @@ public class Game
 
         _currentRoom.SetPlayerHere(true);
     }
+    
+    private void SetAdjacentLocations()
+    {
+        _adjacentLocations.Clear();
+        if (_player.Location.Row - 1 >= 0) _adjacentLocations.Add(_player.Location with { Row = _player.Location.Row - 1 });
+        if (_player.Location.Row + 1 < Randomizer.MaxRows) _adjacentLocations.Add(_player.Location with { Row = _player.Location.Row + 1 });
+        if (_player.Location.Column - 1 >= 0) _adjacentLocations.Add(_player.Location with { Column = _player.Location.Column - 1});
+        if (_player.Location.Column + 1 < Randomizer.MaxColumns) _adjacentLocations.Add(_player.Location with { Column = _player.Location.Column + 1});
+    }
+    
+    private void SetAdjacentRooms()
+    {
+        _adjacentRooms.Clear();
+        foreach (Location location in _adjacentLocations) _adjacentRooms.Add(_cave.GetRoomAt(location));
+    }   
     
     private void Display()
     {
