@@ -3,11 +3,10 @@ namespace The_Fountain_of_Objects;
 public class Player(int caveRows, int caveColumns)
 {
     public Location Location { get; private set; } = new Location { Row = 0, Column = 0};
-    private ConsoleKey GetKeyPress() => Console.ReadKey(true).Key;
     private InputActions _inputAction;
     public void GetInput()
     {
-        _inputAction = GetKeyPress() switch
+        _inputAction = Console.ReadKey(true).Key switch
         {
             ConsoleKey.R                          => InputActions.Repair,
             ConsoleKey.W or ConsoleKey.UpArrow    => InputActions.MoveUp,
