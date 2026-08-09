@@ -1,8 +1,7 @@
 ﻿using The_Fountain_of_Objects;
 
-Randomizer randomizer = new Randomizer();
-Cave cave = new Cave(randomizer);
+Cave cave = new Cave();
 Player player = new Player(cave.Rows, cave.Columns);
-Game game = new Game(player, cave, randomizer);
+Game game = new Game(player, cave);
 
 game.Run();

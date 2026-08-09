@@ -4,14 +4,12 @@ public class Game
 {
     private Player _player;
     private Cave _cave;
-    private Randomizer _randomizer;
     private Sense _sense;
     private Room _currentRoom;
-    public Game(Player player, Cave cave, Randomizer randomizer)
+    public Game(Player player, Cave cave)
     {
         _player = player;
         _cave = cave;
-        _randomizer = randomizer;
         _sense = new Sense(player, cave);
         _currentRoom = _cave.GetRoomAt(_player.Location);
     }
@@ -36,7 +34,7 @@ public class Game
 
             if (_currentRoom.Enemy == EnemyType.Maelstrom)
             {
-                _player.Teleport(_randomizer.GetRandomLocation());
+                _player.Teleport(Randomizer.GetRandomLocation());
                 _cave.MoveMaelstrom();
             }
             
