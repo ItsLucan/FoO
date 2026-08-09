@@ -32,7 +32,7 @@ public class Player(int caveRows, int caveColumns)
         Location? desiredLocation = new Location(Location.Row, Location.Column);
         desiredLocation = _inputAction switch
         {
-            InputActions.Repair => null,
+            InputActions.Repair or InputActions.UnAccounted => null,
             InputActions.MoveUp when Location.Row - 1 >= 0                => Location with { Row = Location.Row - 1 },
             InputActions.MoveLeft when Location.Column - 1 >= 0           => Location with { Column = Location.Column - 1 },
             InputActions.MoveDown when Location.Row + 1 < caveRows        => Location with { Row = Location.Row + 1 },
