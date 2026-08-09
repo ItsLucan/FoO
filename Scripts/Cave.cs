@@ -35,7 +35,6 @@ public class Cave
         PitRoom = new PitRoom(pitLocation);
         Rooms[0, 0] = new EntranceRoom(entranceLocation);
         
-            AmarokLocation = _randomizer.GetRandomLocation();
         Rooms[MaelstromLocation.Row, MaelstromLocation.Column].SetEnemyHere(EnemyType.Maelstrom);
         Rooms[AmarokLocation.Row, AmarokLocation.Column].SetEnemyHere(EnemyType.Amarok);
         Rooms[fountainLocation.Row, fountainLocation.Column] = FountainRoom;
