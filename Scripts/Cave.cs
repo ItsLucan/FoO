@@ -28,8 +28,8 @@ public class Cave
         Location fountainLocation = _randomizer.GetRandomLocationNoOverlap();
         Location pitLocation = _randomizer.GetRandomLocationNoOverlap();
         Location entranceLocation = new Location { Row = 0, Column = 0 };
-        MaelstromLocation = _randomizer.GetRandomRoomSpawnLocation();
-        AmarokLocation = _randomizer.GetRandomRoomSpawnLocation();
+        MaelstromLocation = _randomizer.GetRandomLocationNoOverlap();
+        AmarokLocation = _randomizer.GetRandomLocationNoOverlap();
         
         FountainRoom = new FountainRoom(fountainLocation);
         PitRoom = new PitRoom(pitLocation);

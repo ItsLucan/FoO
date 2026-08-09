@@ -2,6 +2,13 @@ namespace The_Fountain_of_Objects;
 
 public class Sense(Player player, Cave cave)
 {
+    private string seeColor = \e[38;2;251;245;43m;
+    private string hearColor = \e[38;2;137;251;43m;
+    private string feelColor = \e[38;2;194;49;160m;
+    private string smellColor = \e[38;2;251;159;43m;
+    private string negativeColor = \e[38;2;172;48;0m;
+    private string fountainColor = \e[38;2;60;120;255m;
+    private string resetColor = \e[39m;
     private List<Room> _adjacentRooms;
     private List<Location> _adjacentLocations;
     
@@ -40,21 +47,22 @@ public class Sense(Player player, Cave cave)
         
         string? currentRoomSense = currentRoom switch
         {
-            EntranceRoom when cave.FountainRoom.IsRepaired => "You see a light in front of you and escape the cave. You have conquered The Uncoded Ones challenge.", 
-            EntranceRoom => "You see light from outside the cave. You are at the entrance.",
-            FountainRoom when cave.FountainRoom.IsRepaired => "Water rushes from the Fountain of objects. It is repaired.",
-            FountainRoom => "You see the silhouette of a large fountain. You are in the fountain room.",
-            PitRoom => "You lose your footing and tumble into a vast chasm. You have died.",
-            EmptyRoom => null,
-            _ => "ERROR: CURRENT ROOM UNACCOUNTED FOR."
+            EntranceRoom when cave.FountainRoom.IsRepaired => $"{feelColor}FEEL:{resetColor} The warm embrace of the free sun through the caves entrance. You have conquered The Uncoded Ones challenge.", 
+            FountainRoom when cave.FountainRoom.IsRepaired => $"{hearColor}HEAR:{resetColor} Water rushing from the {fountainColor}Fountain of objects{resetColor}. It is repaired.",
+            FountainRoom                                   => $"{seeColor}SEE:{resetColor} You see the silhouette of a large {fountainColor}fountain{resetColor}. You are in the fountain room.",
+            EntranceRoom                                   => $"{seeColor}SEE:{resetColor} light from outside the cave. You are at the entrance.",
+            PitRoom                                        => $"{negativeColor}GAME OVER:{resetColor} You lose your footing and tumble into a vast chasm. You have died.",
+            EmptyRoom                                      => null,
+            _                                              => "ERROR: CURRENT ROOM UNACCOUNTED FOR."
         };
 
         string? currentEnemySense = currentRoom.Enemy switch
         {
-            EnemyType.None => null,
-            EnemyType.Maelstrom => "You stumble into the torrential storm of a Maelstrom. You both are sent flying through the cave.",
-            EnemyType.Amarok => "You waltz into the maw of a foul Amarok, who rends your flesh. You have died.",
-            _ => "ERROR: CURRENT ENEMY UNACCOUNTED FOR."
+            
+            EnemyType.Maelstrom => $"{hearColor}HEAR:{resetColor} torrential storm of a Maelstrom. You both are sent flying through the cave.",
+            EnemyType.Amarok    => $"{negativeColor}GAME OVER:{resetColor} You waltz into the maw of a foul Amarok, who rends your flesh. You have died.",
+            EnemyType.None      => null,
+            _                   => "ERROR: CURRENT ENEMY UNACCOUNTED FOR."
         };
 
         return (currentRoomSense, currentEnemySense);
@@ -64,19 +72,18 @@ public class Sense(Player player, Cave cave)
     {
         string? adjacentRoom = currentRoom switch
         {
-            EntranceRoom => null,
-            FountainRoom => "You hear a faint dripping nearby. The fountain is close.",
-            PitRoom => "You hear the howling of a hungry chasm. A pit is nearby.",
-            EmptyRoom => null,
-            _ => "ERROR: ADJACENT ROOM UNACCOUNTED FOR."
+            FountainRoom              => $"{hearColor}HEAR:{resetColor} a faint dripping nearby. The {fountainColor}fountain{resetColor} is close.",
+            PitRoom                   => $"{feelColor}FEEL:{resetColor} The howling winds of a hungry chasm. A {negativeColor}pit{resetColor} is nearby.",
+            EntranceRoom or EmptyRoom => null,    
+            _                         => "ERROR: ADJACENT ROOM UNACCOUNTED FOR."
         };
 
         string? adjacentEnemy = currentRoom.Enemy switch
         {
-            EnemyType.None => null,
-            EnemyType.Maelstrom => "You hear the ghastly wailing of a Maelstrom nearby.",
-            EnemyType.Amarok => "You smell the pungent odor of rotten flesh. An Amarok is nearby.",
-            _ => "ERROR: ADJACENT ENEMY UNACCOUNTED FOR."
+            EnemyType.Maelstrom => $"{feelColor}FEEL:{resetColor} The ghastly winds of a {negativeColor}Maelstrom{negativeColor} nearby.",
+            EnemyType.Amarok    => $"{smellColor}SMELL:{resetColor} You smell the pungent odor of rotten flesh. An {negativeColor}Amarok{resetColor} is nearby.",
+            EnemyType.None      => null,
+            _                   => "ERROR: ADJACENT ENEMY UNACCOUNTED FOR."
             
         };
         return (adjacentRoom, adjacentEnemy);
