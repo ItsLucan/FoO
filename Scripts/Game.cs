@@ -25,7 +25,7 @@ public class Game
             Display();
             Console.WriteLine(_player.Location);
             Console.WriteLine(_currentRoom);
-            _sense.Display();
+            _sense.GetSenses();
             if (_currentRoom is PitRoom 
                 || _currentRoom is EntranceRoom && _cave.FountainRoom.IsRepaired
                 || _currentRoom.Enemy is EnemyType.Amarok)
