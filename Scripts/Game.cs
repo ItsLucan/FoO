@@ -37,7 +37,7 @@ public class Game
             if (_currentRoom.Enemy == EnemyType.Maelstrom)
             {
                 _player.Teleport(_randomizer.GetRandomLocation());
-                _cave.MoveMaelstrom(_randomizer.GetRandomLocation());
+                _cave.MoveMaelstrom();
             }
             
             _player.GetInput();
@@ -66,6 +66,7 @@ public class Game
         {
             for (int column = 0; column < _cave.Rooms.GetLength(1); column++)
             {
+                
                 Console.Write(_cave.Rooms[row, column].IsPlayerHere ? "o " : "# ");
             }
 

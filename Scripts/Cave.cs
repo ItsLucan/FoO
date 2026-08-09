@@ -9,10 +9,10 @@ public class Cave
     public PitRoom PitRoom { get; }
     public Location MaelstromLocation { get; private set; }
     public Location AmarokLocation { get; private set; }
-    
+    private Randomizer _randomizer; 
     public Cave(Randomizer randomizer)
     {
-        Randomizer _randomizer = randomizer;
+        _randomizer = randomizer;
         Rows = _randomizer.MaxRows;
         Columns = _randomizer.MaxColumns;
         Rooms = new Room[Rows, Columns];
@@ -35,26 +35,18 @@ public class Cave
         PitRoom = new PitRoom(pitLocation);
         Rooms[0, 0] = new EntranceRoom(entranceLocation);
         
-        while (!GetRoomAt(MaelstromLocation).IsEnemySpawnable)
-        {
-            MaelstromLocation = _randomizer.GetRandomLocation();
-        }
-        while (!GetRoomAt(AmarokLocation).IsEnemySpawnable)
-        {
             AmarokLocation = _randomizer.GetRandomLocation();
-        }
-        
         Rooms[MaelstromLocation.Row, MaelstromLocation.Column].SetEnemyHere(EnemyType.Maelstrom);
         Rooms[AmarokLocation.Row, AmarokLocation.Column].SetEnemyHere(EnemyType.Amarok);
         Rooms[fountainLocation.Row, fountainLocation.Column] = FountainRoom;
         Rooms[pitLocation.Row, pitLocation.Column] = PitRoom;
     }
 
-    public void MoveMaelstrom(Location location)
+    public void MoveMaelstrom()
     {
         Rooms[MaelstromLocation.Row, MaelstromLocation.Column].SetEnemyHere(EnemyType.None);
-        MaelstromLocation = location;
-        GetRoomAt(location).SetEnemyHere(EnemyType.Maelstrom);
+        MaelstromLocation = _randomizer.GetRandomLocation();
+        GetRoomAt(MaelstromLocation).SetEnemyHere(EnemyType.Maelstrom);
     } 
     
     public Room GetRoomAt(Location location) => Rooms[location.Row, location.Column];

@@ -19,10 +19,7 @@ public class Randomizer
         _row = _random.Next(2, MaxRows);
         _column = _random.Next(2, MaxColumns);
         Location randomLocation = new Location(_row, _column);
-        while (_randomLocations.Contains(randomLocation))
-        {
-            randomLocation = new Location(_random.Next(1, MaxRows), _random.Next(1, MaxColumns));
-        }
+        while (_randomLocations.Contains(randomLocation)) randomLocation = new Location(_random.Next(1, MaxRows), _random.Next(1, MaxColumns));
         _randomLocations.Add(randomLocation);
         return randomLocation;
     }
