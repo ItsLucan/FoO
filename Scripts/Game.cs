@@ -24,17 +24,12 @@ public class Game
             Console.WriteLine(_player.Location);
             Console.WriteLine(_currentRoom);
             _sense.Display();
-            if (_currentRoom is PitRoom)
+            if (_currentRoom is PitRoom || _currentRoom is EntranceRoom && _cave.FountainRoom.IsRepaired)
             {
                 Console.ReadKey(true);
                 return;
             }
-           
-            if (_currentRoom is EntranceRoom && _cave.FountainRoom.IsRepaired)
-            {
-                Console.ReadKey(true);
-                return;
-            }
+          
             _player.GetInput();
             
             if (_currentRoom is FountainRoom && _player.IsInputtingRepair())
