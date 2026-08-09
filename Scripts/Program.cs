@@ -1,4 +1,4 @@
-﻿using The_Fountain_of_Objects;
+﻿using The_Fountain_of_Objects.Scripts;
 
 Cave cave = new Cave();
 Player player = new Player(cave.Rows, cave.Columns);

@@ -1,4 +1,4 @@
-namespace The_Fountain_of_Objects;
+namespace The_Fountain_of_Objects.Scripts;
 
 public abstract class Room(Location location)
 {

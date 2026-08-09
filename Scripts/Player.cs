@@ -1,4 +1,4 @@
-namespace The_Fountain_of_Objects;
+namespace The_Fountain_of_Objects.Scripts;
 
 public class Player(int caveRows, int caveColumns)
 {

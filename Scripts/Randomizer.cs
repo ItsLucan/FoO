@@ -1,33 +1,32 @@
-namespace The_Fountain_of_Objects;
+namespace The_Fountain_of_Objects.Scripts;
 
-public class Randomizer
+public static class Randomizer
 {
-    private Random _random = new Random();
-    public  int MaxRows { get; }
-    public int MaxColumns { get; } 
-    private int _row;
-    private int _column;
-    private List<Location> _randomLocations = new List<Location>();
-    public Randomizer()
+    private static readonly Random Random;
+    public static readonly int MaxRows;
+    public static readonly int MaxColumns;
+    private static readonly List<Location> RandomLocations;
+    
+    static Randomizer()
     {
-        MaxRows = _random.Next(5, 10);
-        MaxColumns = _random.Next(5, 10);
+        Random = new Random();
+        RandomLocations = new List<Location>();
+        MaxRows = Random.Next(5, 10);
+        MaxColumns = Random.Next(5, 10);
     }
-
-    public Location GetRandomLocationNoOverlap()
+        
+    public static Location GetSafeRandomLocation()
     {
-        _row = _random.Next(2, MaxRows);
-        _column = _random.Next(2, MaxColumns);
-        Location randomLocation = new Location(_row, _column);
-        while (_randomLocations.Contains(randomLocation)) randomLocation = new Location(_random.Next(1, MaxRows), _random.Next(1, MaxColumns));
-        _randomLocations.Add(randomLocation);
-        return randomLocation;
+        int row = Random.Next(2, MaxRows);
+        int column = Random.Next(2, MaxColumns);
+        Location randomLocation = new Location(row, column);
+        while (RandomLocations.Contains(randomLocation)) randomLocation = new Location(Random.Next(1, MaxRows), Random.Next(1, MaxColumns));
+        RandomLocations.Add(randomLocation);
+        return randomLocation; 
     }
-
-    public Location GetRandomLocation()
+    
+    public static Location GetRandomLocation()
     {
-        _row = _random.Next(0, MaxRows);
-        _column = _random.Next(0, MaxColumns);
-        return new Location(_row, _column);
-    }
+        return new Location(Random.Next(0, MaxRows), Random.Next(0, MaxColumns));
+    } 
 }

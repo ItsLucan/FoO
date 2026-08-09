@@ -1,4 +1,4 @@
-namespace The_Fountain_of_Objects;
+namespace The_Fountain_of_Objects.Scripts;
 
 public class Cave
 {
@@ -8,7 +8,8 @@ public class Cave
     public FountainRoom FountainRoom { get; }
     public PitRoom PitRoom { get; }
     public Location MaelstromLocation { get; private set; }
-    public Location AmarokLocation { get; private set; }
+    public Location AmarokLocation { get; }
+
     public Cave()
     {
         Rows = Randomizer.MaxRows;
