@@ -1,22 +1,14 @@
 namespace The_Fountain_of_Objects.Scripts;
 
-public abstract class Room(Location location)
+public class Room(RoomType roomType, Location location)
 {
-    protected abstract TypeOfRoom RoomType { get; }
-    public virtual EnemyType Enemy { get; private protected set; } = EnemyType.None;
-    public virtual bool IsEnemySpawnable { get; private protected set; } = false; 
-    public bool IsPlayerHere { get; private set; }
+    public RoomType RoomType { get; } = roomType;
     public Location Location { get; } = location;
+    public EnemyType EnemyType { get; private set; } = EnemyType.None;
+    public bool IsPlayerHere { get; private set; } = false;
     
-    public void SetPlayerHere(bool isHere)
-    {
-        IsPlayerHere = isHere;
-    }
+    
+    public void SetPlayerHere(bool isHere) => IsPlayerHere = isHere;
 
-    public void SetEnemyHere(EnemyType enemy)
-    {
-        Enemy = enemy;
-    }
-        
-    protected enum TypeOfRoom { Empty, Fountain, Pit, Entrance }
+    public void SetEnemyHere(EnemyType enemyType) => EnemyType = enemyType;
 }

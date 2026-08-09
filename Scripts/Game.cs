@@ -4,13 +4,14 @@ public class Game
 {
     private Player _player;
     private Cave _cave;
-    private Sense _sense;
+    private Sensor _sensor;
     private Room _currentRoom;
+    public bool IsFountainRepaired { get; private set; } = false;
     public Game(Player player, Cave cave)
     {
         _player = player;
         _cave = cave;
-        _sense = new Sense(player, cave);
+        _sensor = new Sensor(player, cave);
         _currentRoom = _cave.GetRoomAt(_player.Location);
     }
 
@@ -23,16 +24,16 @@ public class Game
             Display();
             Console.WriteLine(_player.Location);
             Console.WriteLine(_currentRoom);
-            _sense.GetSenses();
-            if (_currentRoom is PitRoom 
-                || _currentRoom is EntranceRoom && _cave.FountainRoom.IsRepaired
-                || _currentRoom.Enemy is EnemyType.Amarok)
+            _sensor.GetSenses();
+            if (_currentRoom.RoomType is RoomType.Pit
+                || _currentRoom.RoomType is RoomType.Entrance && IsFountainRepaired
+                || _currentRoom.EnemyType is EnemyType.Amarok)
             {
                 Console.ReadKey(true);
                 return;
             }
 
-            if (_currentRoom.Enemy == EnemyType.Maelstrom)
+            if (_currentRoom.EnemyType == EnemyType.Maelstrom)
             {
                 _player.Teleport(Randomizer.GetRandomLocation());
                 _cave.MoveMaelstrom();
@@ -40,9 +41,9 @@ public class Game
             
             _player.GetInput();
             
-            if (_currentRoom is FountainRoom && _player.IsInputtingRepair())
+            if (_currentRoom.RoomType is RoomType.Fountain && _player.IsInputtingRepair())
             {
-                _cave.FountainRoom.Repair();
+                IsFountainRepaired = true;
             }
         }
     }

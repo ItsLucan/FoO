@@ -5,8 +5,8 @@ public class Cave
     public Room[,] Rooms { get; }
     public int Rows { get; }
     public int Columns { get; }
-    public FountainRoom FountainRoom { get; }
-    public PitRoom PitRoom { get; }
+    public Room FountainRoom { get; }
+    public Room PitRoom { get; }
     public Location MaelstromLocation { get; private set; }
     public Location AmarokLocation { get; }
 
@@ -20,7 +20,7 @@ public class Cave
         {
             for (int column = 0; column < Rooms.GetLength(1); column++)
             {
-                Rooms[row, column] = new EmptyRoom(new Location { Row = row, Column = column});
+                Rooms[row, column] = new Room(RoomType.Empty, new Location { Row = row, Column = column});
             }
         }
 
@@ -30,9 +30,9 @@ public class Cave
         MaelstromLocation = Randomizer.GetSafeRandomLocation();
         AmarokLocation = Randomizer.GetSafeRandomLocation();
         
-        FountainRoom = new FountainRoom(fountainLocation);
-        PitRoom = new PitRoom(pitLocation);
-        Rooms[0, 0] = new EntranceRoom(entranceLocation);
+        FountainRoom = GetRoomAt(fountainLocation);
+        PitRoom = GetRoomAt(pitLocation);
+        Rooms[0, 0] = GetRoomAt(entranceLocation);
         
         Rooms[MaelstromLocation.Row, MaelstromLocation.Column].SetEnemyHere(EnemyType.Maelstrom);
         Rooms[AmarokLocation.Row, AmarokLocation.Column].SetEnemyHere(EnemyType.Amarok);
