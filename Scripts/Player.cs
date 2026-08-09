@@ -9,12 +9,12 @@ public class Player(int caveRows, int caveColumns)
     {
         _inputAction = GetKeyPress() switch
         {
-            ConsoleKey.R => InputActions.Repair,
-            ConsoleKey.W => InputActions.MoveUp,
-            ConsoleKey.A => InputActions.MoveLeft,
-            ConsoleKey.S => InputActions.MoveDown,
-            ConsoleKey.D => InputActions.MoveRight,
-            _ => InputActions.UnAccounted
+            ConsoleKey.R                          => InputActions.Repair,
+            ConsoleKey.W or ConsoleKey.UpArrow    => InputActions.MoveUp,
+            ConsoleKey.A or ConsoleKey.LeftArrow  => InputActions.MoveLeft,
+            ConsoleKey.S or ConsoleKey.DownArrow  => InputActions.MoveDown,
+            ConsoleKey.D or ConsoleKey.RightArrow => InputActions.MoveRight,
+            _                                     => InputActions.UnAccounted
         };
         
         CheckForMove();
@@ -33,11 +33,11 @@ public class Player(int caveRows, int caveColumns)
         desiredLocation = _inputAction switch
         {
             InputActions.Repair => null,
-            InputActions.MoveUp when Location.Row - 1 >= 0 => Location with { Row = Location.Row - 1 },
-            InputActions.MoveLeft when Location.Column - 1 >= 0 => Location with { Column = Location.Column - 1 },
-            InputActions.MoveDown when Location.Row + 1 < caveRows => Location with { Row = Location.Row + 1 },
+            InputActions.MoveUp when Location.Row - 1 >= 0                => Location with { Row = Location.Row - 1 },
+            InputActions.MoveLeft when Location.Column - 1 >= 0           => Location with { Column = Location.Column - 1 },
+            InputActions.MoveDown when Location.Row + 1 < caveRows        => Location with { Row = Location.Row + 1 },
             InputActions.MoveRight when Location.Column + 1 < caveColumns => Location with { Column = Location.Column + 1 },
-            _ => Location
+            _                                                             => Location
         };
 
         if (desiredLocation is not null)
