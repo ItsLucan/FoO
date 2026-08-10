@@ -27,14 +27,14 @@ public class Game
             SetAdjacentLocations();
             SetAdjacentRooms(); 
             Display();
-            _sensor.GetSenses(_currentRoom, _adjacentRooms, _isFountainRepaired);
+            _sensor.DisplayCurrentSense(_currentRoom, _isFountainRepaired);
             _isGameOver = CheckIsGameOver();
             if (_isGameOver)
             {
                 Console.ReadKey(true);
                 return;
             }
-
+            _sensor.DisplayAdjacentSenses(_adjacentRooms);
             if (_currentRoom.EnemyType == EnemyType.Maelstrom)
             {
                 _player.Teleport(Randomizer.GetRandomLocation());

@@ -10,12 +10,15 @@ public class Sensor()
     private string _fountainColor = "\e[38;2;60;120;255m";
     private string _resetColor    = "\e[39m";
     
-    public void GetSenses(Room currentRoom, List<Room> adjacentRooms, bool isFountainRepaired)
+    public void DisplayCurrentSense(Room currentRoom, bool isFountainRepaired)
     {
         (string? currentRoomSense, string? currentEnemySense) = GetCurrentSenses(currentRoom, isFountainRepaired);
         if (currentRoomSense != null) Console.WriteLine(currentRoomSense);
         if (currentEnemySense != null) Console.WriteLine(currentEnemySense);
-        
+    }
+    
+    public void DisplayAdjacentSenses(List<Room> adjacentRooms)
+    {
         foreach (Room room in adjacentRooms)
         {
             (string? adjacentRoomSense, string? adjacentEnemySense) = GetAdjacentSenses(room);
@@ -23,7 +26,7 @@ public class Sensor()
             if (adjacentEnemySense != null) Console.WriteLine(adjacentEnemySense);
         }
     }
-
+    
     private (string? currentRoomMessage, string? currentEnemyMessage) GetCurrentSenses(Room currentRoom, bool isFountainRepaired)
     {
         
