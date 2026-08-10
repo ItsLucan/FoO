@@ -9,12 +9,13 @@ public class Game
     private List<Location> _adjacentLocations = new List<Location>();
     private List<Room> _adjacentRooms = new List<Room>();
     private bool _isFountainRepaired = false;
+    private bool _isGameOver = false;
     public Game(Player player, Cave cave)
     {
         _player = player;
         _cave = cave;
         _currentRoom = _cave.GetRoomAt(_player.Location);
-        _sensor = new Sensor(_currentRoom, _adjacentRooms, _isFountainRepaired);
+        _sensor = new Sensor();
     }
 
     public void Run()
@@ -23,15 +24,12 @@ public class Game
         {
             Console.Clear();
             UpdatePlayerRoom();
-            Display();
-            Console.WriteLine(_player.Location);
-            Console.WriteLine(_currentRoom);
             SetAdjacentLocations();
-            SetAdjacentRooms();
-            _sensor.GetSenses();
-            if (_currentRoom.RoomType is RoomType.Pit
-                || _currentRoom.RoomType is RoomType.Entrance && _isFountainRepaired
-                || _currentRoom.EnemyType is EnemyType.Amarok)
+            SetAdjacentRooms(); 
+            Display();
+            _sensor.GetSenses(_currentRoom, _adjacentRooms, _isFountainRepaired);
+            _isGameOver = CheckIsGameOver();
+            if (_isGameOver)
             {
                 Console.ReadKey(true);
                 return;
@@ -50,6 +48,18 @@ public class Game
                 _isFountainRepaired = true;
             }
         }
+    }
+
+    private bool CheckIsGameOver()
+    {
+        if (_currentRoom.RoomType is RoomType.Pit
+            || _currentRoom.RoomType is RoomType.Entrance && _isFountainRepaired
+            || _currentRoom.EnemyType is EnemyType.Amarok)
+        {
+            return true;
+        }
+
+        return false;
     }
     
     private void UpdatePlayerRoom()
