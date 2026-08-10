@@ -11,8 +11,8 @@ public static class Randomizer
     {
         Random = new Random();
         RandomLocations = new List<Location>();
-        MaxRows = Random.Next(5, 10);
-        MaxColumns = Random.Next(5, 10);
+        MaxRows = Random.Next(10, 20);
+        MaxColumns = Random.Next(10, 20);
     }
         
     public static Location GetSafeRandomLocation()
