@@ -3,8 +3,8 @@ namespace The_Fountain_of_Objects.Scripts;
 public class Cave
 {
     public Room[,] Rooms { get; }
-    private Location _maelstromLocation;
-    
+    private Location _firstMaelstromLocation;
+    private Location _secondMaelstromLocation;
     public Cave()
     {
         Rooms = new Room[Randomizer.Rows, Randomizer.Columns];
@@ -16,26 +16,37 @@ public class Cave
                 Rooms[row, column] = new Room(RoomType.Empty, new Location { Row = row, Column = column});
             }
         }
-        
-        Location entranceLocation = new Location { Row = 0, Column = 0 };
+
         Location fountainLocation = Randomizer.GetSafeRandomLocation();
         Location pitLocation = Randomizer.GetSafeRandomLocation();
-        _maelstromLocation = Randomizer.GetSafeRandomLocation();
-        Location amarokLocation = Randomizer.GetSafeRandomLocation();
+        _firstMaelstromLocation = Randomizer.GetSafeRandomLocation();
+        _secondMaelstromLocation = Randomizer.GetSafeRandomLocation();
+        Location firstAmarokLocation = Randomizer.GetSafeRandomLocation();
+        Location secondAmarokLocation = Randomizer.GetSafeRandomLocation();
+
         
-        
-        Rooms[_maelstromLocation.Row, _maelstromLocation.Column].SetEnemyHere(EnemyType.Maelstrom);
-        Rooms[amarokLocation.Row, amarokLocation.Column].SetEnemyHere(EnemyType.Amarok);
-        Rooms[entranceLocation.Row, entranceLocation.Column] = new Room(RoomType.Entrance, entranceLocation);
+        Rooms[Randomizer.EntranceLocation.Row, Randomizer.EntranceLocation.Column] = new Room(RoomType.Entrance, Randomizer.EntranceLocation);
         Rooms[fountainLocation.Row, fountainLocation.Column] = new Room(RoomType.Fountain, fountainLocation);
         Rooms[pitLocation.Row, pitLocation.Column] = new Room(RoomType.Pit, pitLocation);
+        GetRoomAt(_firstMaelstromLocation).SetEnemyHere(EnemyType.Maelstrom);
+        GetRoomAt(_secondMaelstromLocation).SetEnemyHere(EnemyType.Maelstrom);
+        GetRoomAt(firstAmarokLocation).SetEnemyHere(EnemyType.Amarok);
+        GetRoomAt(secondAmarokLocation).SetEnemyHere(EnemyType.Amarok);
     }
 
-    public void MoveMaelstrom()
+    public void MoveMaelstrom(Location playerLocation)
     {
-        Rooms[_maelstromLocation.Row, _maelstromLocation.Column].SetEnemyHere(EnemyType.None);
-        _maelstromLocation = Randomizer.GetRandomLocation();
-        GetRoomAt(_maelstromLocation).SetEnemyHere(EnemyType.Maelstrom);
+        Rooms[playerLocation.Row, playerLocation.Column].SetEnemyHere(EnemyType.None);
+        if (playerLocation == _firstMaelstromLocation)
+        {
+            _firstMaelstromLocation = Randomizer.GetRandomLocation();    
+            GetRoomAt(_firstMaelstromLocation).SetEnemyHere(EnemyType.Maelstrom);
+        }
+        else
+        {
+            _secondMaelstromLocation = Randomizer.GetRandomLocation();
+            GetRoomAt(_secondMaelstromLocation).SetEnemyHere(EnemyType.Maelstrom);
+        }
     } 
     
     public Room GetRoomAt(Location location) => Rooms[location.Row, location.Column];

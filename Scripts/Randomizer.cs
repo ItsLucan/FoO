@@ -5,6 +5,7 @@ public static class Randomizer
     private static readonly Random Random;
     public static readonly int Rows;
     public static readonly int Columns;
+    public static readonly Location EntranceLocation = GetSafeRandomLocation();
     private static readonly List<Location> RandomLocations;
     
     static Randomizer()
@@ -17,8 +18,8 @@ public static class Randomizer
         
     public static Location GetSafeRandomLocation()
     {
-        int row = Random.Next(2, Rows);
-        int column = Random.Next(2, Columns);
+        int row = Random.Next(0, Rows);
+        int column = Random.Next(0, Columns);
         Location randomLocation = new Location(row, column);
         while (RandomLocations.Contains(randomLocation)) randomLocation = new Location(Random.Next(1, Rows), Random.Next(1, Columns));
         RandomLocations.Add(randomLocation);

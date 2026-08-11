@@ -2,7 +2,7 @@ namespace The_Fountain_of_Objects.Scripts;
 
 public class Player
 {
-    public Location Location { get; private set; } = new Location { Row = 0, Column = 0};
+    public Location Location { get; private set; } = Randomizer.EntranceLocation;
     private InputActions _inputAction;
 
     public void Teleport(Location location)
