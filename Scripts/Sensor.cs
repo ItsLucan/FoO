@@ -1,6 +1,6 @@
 namespace The_Fountain_of_Objects.Scripts;
 
-public class Sensor()
+public class Sensor
 {
     private const string SeeColor      = "\e[38;2;251;245;43m";
     private const string HearColor     = "\e[38;2;137;251;43m";
