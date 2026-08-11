@@ -4,8 +4,8 @@ public class Game
 {
     private Player _player;
     private Cave _cave;
-    private Sensor _sensor;
     private Room _currentRoom;
+    private Sensor _sensor = new Sensor();
     private List<Location> _adjacentLocations = new List<Location>();
     private List<Room> _adjacentRooms = new List<Room>();
     private bool _isFountainRepaired = false;
@@ -15,7 +15,6 @@ public class Game
         _player = player;
         _cave = cave;
         _currentRoom = _cave.GetRoomAt(_player.Location);
-        _sensor = new Sensor();
     }
 
     public void Run()

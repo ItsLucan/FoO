@@ -2,13 +2,13 @@ namespace The_Fountain_of_Objects.Scripts;
 
 public class Sensor()
 {
-    private string _seeColor      = "\e[38;2;251;245;43m";
-    private string _hearColor     = "\e[38;2;137;251;43m";
-    private string _feelColor     = "\e[38;2;194;49;160m";
-    private string _smellColor    = "\e[38;2;251;159;43m";
-    private string _negativeColor = "\e[38;2;172;48;0m";
-    private string _fountainColor = "\e[38;2;60;120;255m";
-    private string _resetColor    = "\e[39m";
+    private readonly string _seeColor      = "\e[38;2;251;245;43m";
+    private readonly string _hearColor     = "\e[38;2;137;251;43m";
+    private readonly string _feelColor     = "\e[38;2;194;49;160m";
+    private readonly string _smellColor    = "\e[38;2;251;159;43m";
+    private readonly string _negativeColor = "\e[38;2;172;48;0m";
+    private readonly string _fountainColor = "\e[38;2;60;120;255m";
+    private readonly string _resetColor    = "\e[39m";
     
     public void DisplayCurrentSense(Room currentRoom, bool isFountainRepaired)
     {
