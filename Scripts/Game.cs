@@ -89,9 +89,9 @@ public class Game
     
     private void Display()
     {
-        for (int row = 0; row < _cave.Rooms.GetLength(0); row++)
+        for (int row = 0; row < Randomizer.MaxRows; row++)
         {
-            for (int column = 0; column < _cave.Rooms.GetLength(1); column++)
+            for (int column = 0; column < Randomizer.MaxColumns; column++)
             {
                 
                 Console.Write(_cave.Rooms[row, column].IsPlayerHere ? "o " : "# ");
