@@ -2,18 +2,17 @@ namespace The_Fountain_of_Objects.Scripts;
 
 public class Game
 {
-    private readonly Player _player;
-    private readonly Cave _cave;
     private Room _currentRoom;
+    private readonly Player _player = new Player();
+    private readonly Cave _cave = new Cave();
     private readonly Sensor _sensor = new Sensor();
     private readonly List<Location> _adjacentLocations = new List<Location>();
     private readonly List<Room> _adjacentRooms = new List<Room>();
     private bool _isFountainRepaired = false;
     private bool _isGameOver = false;
-    public Game(Player player, Cave cave)
+    
+    public Game()
     {
-        _player = player;
-        _cave = cave;
         _currentRoom = _cave.GetRoomAt(_player.Location);
     }
 

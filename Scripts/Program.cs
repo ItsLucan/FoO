@@ -3,6 +3,6 @@
 Console.CursorVisible = false;
 Cave cave = new Cave();
 Player player = new Player();
-Game game = new Game(player, cave);
+Game game = new Game();
 
 game.Run();
