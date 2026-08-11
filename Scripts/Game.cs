@@ -96,7 +96,7 @@ public class Game
             _                                          => "ERROR: CURRENT ROOM UNACCOUNTED FOR."
         };
         
-        if (currentRoomText != null) Console.WriteLine(currentRoomText); 
+        if (currentRoomText is not null) Console.WriteLine(currentRoomText); 
     }
     
     private void GetCurrentEnemySense()
@@ -109,7 +109,7 @@ public class Game
             _                   => "ERROR: CURRENT ENEMY UNACCOUNTED FOR."
         };
 
-        if (currentEnemyText != null) Console.WriteLine(currentEnemyText);
+        if (currentEnemyText is not null) Console.WriteLine(currentEnemyText);
     }
 
     private void GetAdjacentRoomSense(Room adjacentRoom)
