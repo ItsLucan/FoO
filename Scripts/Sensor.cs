@@ -12,25 +12,25 @@ public class Sensor()
     
     public void DisplayCurrentSense(Room currentRoom, bool isFountainRepaired)
     {
-        (string? currentRoomSense, string? currentEnemySense) = GetCurrentSenses(currentRoom, isFountainRepaired);
-        if (currentRoomSense != null) Console.WriteLine(currentRoomSense);
-        if (currentEnemySense != null) Console.WriteLine(currentEnemySense);
+        (string? currentRoomText, string? currentEnemyText) = GetCurrentSenses(currentRoom, isFountainRepaired);
+        if (currentRoomText != null) Console.WriteLine(currentRoomText);
+        if (currentEnemyText != null) Console.WriteLine(currentEnemyText);
     }
     
     public void DisplayAdjacentSenses(List<Room> adjacentRooms)
     {
         foreach (Room room in adjacentRooms)
         {
-            (string? adjacentRoomSense, string? adjacentEnemySense) = GetAdjacentSenses(room);
-            if (adjacentRoomSense != null) Console.WriteLine(adjacentRoomSense);
-            if (adjacentEnemySense != null) Console.WriteLine(adjacentEnemySense);
+            (string? adjacentRoomText, string? adjacentEnemyText) = GetAdjacentSenses(room);
+            if (adjacentRoomText != null) Console.WriteLine(adjacentRoomText);
+            if (adjacentEnemyText != null) Console.WriteLine(adjacentEnemyText);
         }
     }
     
-    private (string? currentRoomMessage, string? currentEnemyMessage) GetCurrentSenses(Room currentRoom, bool isFountainRepaired)
+    private (string? currentRoomText, string? currentEnemyText) GetCurrentSenses(Room currentRoom, bool isFountainRepaired)
     {
         
-        string? currentRoomSense = currentRoom.RoomType switch
+        string? currentRoomText = currentRoom.RoomType switch
         {
             RoomType.Entrance when isFountainRepaired  => $"{_feelColor}FEEL:{_resetColor} The warm embrace of the free sun through the caves entrance. You have conquered The Uncoded Ones challenge.", 
             RoomType.Fountain when isFountainRepaired  => $"{_hearColor}HEAR:{_resetColor} Water rushing from the {_fountainColor}Fountain of objects{_resetColor}. It is repaired.",
@@ -41,7 +41,7 @@ public class Sensor()
             _                                          => "ERROR: CURRENT ROOM UNACCOUNTED FOR."
         };
 
-        string? currentEnemySense = currentRoom.EnemyType switch
+        string? currentEnemyText = currentRoom.EnemyType switch
         {
             EnemyType.Maelstrom => $"{_feelColor}FEEL:{_resetColor} The torrential strength of a Maelstrom. You both are sent flying through the cave.",
             EnemyType.Amarok    => $"{_negativeColor}GAME OVER:{_resetColor} You waltz into the maw of a foul Amarok, who rends your flesh. You have died.",
@@ -49,12 +49,12 @@ public class Sensor()
             _                   => "ERROR: CURRENT ENEMY UNACCOUNTED FOR."
         };
 
-        return (currentRoomSense, currentEnemySense);
+        return (currentRoomText, currentEnemyText);
     }
 
-    private (string? adjacentRoom, string? adjacentEnemy) GetAdjacentSenses(Room adjacentRoom)
+    private (string? adjacentRoomText, string? adjacentEnemyText) GetAdjacentSenses(Room adjacentRoom)
     {
-        string? adjacentRoomSense = adjacentRoom.RoomType switch
+        string? adjacentRoomText = adjacentRoom.RoomType switch
         {
             RoomType.Fountain                   => $"{_hearColor}HEAR:{_resetColor} A faint dripping in the distance. The {_fountainColor}fountain{_resetColor} is close.",
             RoomType.Pit                        => $"{_feelColor}FEEL:{_resetColor} The howling breath of a hungry chasm. A {_negativeColor}pit{_resetColor} is nearby.",
@@ -62,7 +62,7 @@ public class Sensor()
             _                                   => "ERROR: ADJACENT ROOM UNACCOUNTED FOR."
         };
 
-        string? adjacentEnemySense = adjacentRoom.EnemyType switch
+        string? adjacentEnemyText = adjacentRoom.EnemyType switch
         {
             EnemyType.Maelstrom => $"{_feelColor}FEEL:{_resetColor} The ghastly winds of a {_negativeColor}Maelstrom{_resetColor} nearby.",
             EnemyType.Amarok    => $"{_smellColor}SMELL:{_resetColor} The pungent odor of rotten flesh. An {_negativeColor}Amarok{_resetColor} is nearby.",
@@ -71,6 +71,6 @@ public class Sensor()
             
         };
         
-        return (adjacentRoomSense, adjacentEnemySense);
+        return (adjacentRoomText, adjacentEnemyText);
     }
 }
