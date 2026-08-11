@@ -1,6 +1,6 @@
 namespace The_Fountain_of_Objects.Scripts;
 
-public class Player(int caveRows, int caveColumns)
+public class Player()
 {
     public Location Location { get; private set; } = new Location { Row = 0, Column = 0};
     private InputActions _inputAction;
@@ -34,21 +34,16 @@ public class Player(int caveRows, int caveColumns)
     
     private void CheckForMove()
     {
-        Location? desiredLocation = new Location(Location.Row, Location.Column);
-        desiredLocation = _inputAction switch
+        Location desiredLocation = _inputAction switch
         {
-            InputActions.Repair or InputActions.UnAccounted => null,
-            InputActions.MoveUp when Location.Row - 1 >= 0                => Location with { Row = Location.Row - 1 },
-            InputActions.MoveLeft when Location.Column - 1 >= 0           => Location with { Column = Location.Column - 1 },
-            InputActions.MoveDown when Location.Row + 1 < caveRows        => Location with { Row = Location.Row + 1 },
-            InputActions.MoveRight when Location.Column + 1 < caveColumns => Location with { Column = Location.Column + 1 },
-            _                                                             => Location
+            InputActions.MoveUp when Location.Row - 1 >= 0                          => Location with { Row = Location.Row - 1 },
+            InputActions.MoveLeft when Location.Column - 1 >= 0                     => Location with { Column = Location.Column - 1 },
+            InputActions.MoveDown when Location.Row + 1 < Randomizer.MaxRows        => Location with { Row = Location.Row + 1 },
+            InputActions.MoveRight when Location.Column + 1 < Randomizer.MaxColumns => Location with { Column = Location.Column + 1 },
+            _                                                                       => Location
         };
 
-        if (desiredLocation is not null)
-        {
-            Location = (Location)desiredLocation;
-        }
+        if (Location != desiredLocation) Location = desiredLocation;
     }
     
     private enum InputActions { MoveUp, MoveDown, MoveLeft, MoveRight, Repair, UnAccounted }

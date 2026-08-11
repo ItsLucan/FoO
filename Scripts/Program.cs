@@ -2,7 +2,7 @@
 
 Console.CursorVisible = false;
 Cave cave = new Cave();
-Player player = new Player(cave.Rows, cave.Columns);
+Player player = new Player();
 Game game = new Game(player, cave);
 
 game.Run();
