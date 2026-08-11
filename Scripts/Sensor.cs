@@ -43,8 +43,8 @@ public class Sensor()
 
         string? currentEnemyText = currentRoom.EnemyType switch
         {
-            EnemyType.Maelstrom => $"{FeelColor}FEEL:{ResetColor} The torrential strength of a Maelstrom. You both are sent flying through the cave.",
-            EnemyType.Amarok    => $"{NegativeColor}GAME OVER:{ResetColor} You waltz into the maw of a foul Amarok, who rends your flesh. You have died.",
+            EnemyType.Maelstrom => $"{FeelColor}FEEL:{ResetColor} The torrential strength of a {NegativeColor}Maelstrom{ResetColor}. You both are sent flying through the cave.",
+            EnemyType.Amarok    => $"{NegativeColor}GAME OVER:{ResetColor} You waltz into the maw of a foul {NegativeColor}Amarok{ResetColor}, who rends your flesh. You have died.",
             EnemyType.None      => null,
             _                   => "ERROR: CURRENT ENEMY UNACCOUNTED FOR."
         };
