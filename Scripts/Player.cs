@@ -38,8 +38,8 @@ public class Player
         {
             InputActions.MoveUp when Location.Row - 1 >= 0                          => Location with { Row = Location.Row - 1 },
             InputActions.MoveLeft when Location.Column - 1 >= 0                     => Location with { Column = Location.Column - 1 },
-            InputActions.MoveDown when Location.Row + 1 < Randomizer.MaxRows        => Location with { Row = Location.Row + 1 },
-            InputActions.MoveRight when Location.Column + 1 < Randomizer.MaxColumns => Location with { Column = Location.Column + 1 },
+            InputActions.MoveDown when Location.Row + 1 < Randomizer.Rows        => Location with { Row = Location.Row + 1 },
+            InputActions.MoveRight when Location.Column + 1 < Randomizer.Columns => Location with { Column = Location.Column + 1 },
             _                                                                       => Location
         };
 

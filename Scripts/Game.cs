@@ -143,9 +143,9 @@ public class Game
     {
         _adjacentLocations.Clear();
         if (_player.Location.Row - 1 >= 0) _adjacentLocations.Add(_player.Location with { Row = _player.Location.Row - 1 });
-        if (_player.Location.Row + 1 < Randomizer.MaxRows) _adjacentLocations.Add(_player.Location with { Row = _player.Location.Row + 1 });
+        if (_player.Location.Row + 1 < Randomizer.Rows) _adjacentLocations.Add(_player.Location with { Row = _player.Location.Row + 1 });
         if (_player.Location.Column - 1 >= 0) _adjacentLocations.Add(_player.Location with { Column = _player.Location.Column - 1});
-        if (_player.Location.Column + 1 < Randomizer.MaxColumns) _adjacentLocations.Add(_player.Location with { Column = _player.Location.Column + 1});
+        if (_player.Location.Column + 1 < Randomizer.Columns) _adjacentLocations.Add(_player.Location with { Column = _player.Location.Column + 1});
     }
     
     private void SetAdjacentRooms()
@@ -156,9 +156,9 @@ public class Game
     
     private void Display()
     {
-        for (int row = 0; row < Randomizer.MaxRows; row++)
+        for (int row = 0; row < Randomizer.Rows; row++)
         {
-            for (int column = 0; column < Randomizer.MaxColumns; column++)
+            for (int column = 0; column < Randomizer.Columns; column++)
             {
                 
                 Console.Write(_cave.Rooms[row, column].IsPlayerHere ? "o " : "# ");

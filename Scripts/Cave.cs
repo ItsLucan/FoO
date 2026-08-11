@@ -3,19 +3,15 @@ namespace The_Fountain_of_Objects.Scripts;
 public class Cave
 {
     public Room[,] Rooms { get; }
-    public int Rows { get; }
-    public int Columns { get; }
     private Location _maelstromLocation;
     
     public Cave()
     {
-        Rows = Randomizer.MaxRows;
-        Columns = Randomizer.MaxColumns;
-        Rooms = new Room[Rows, Columns];
+        Rooms = new Room[Randomizer.Rows, Randomizer.Columns];
             
-        for (int row = 0; row < Rooms.GetLength(0); row++)
+        for (int row = 0; row < Randomizer.Rows; row++)
         {
-            for (int column = 0; column < Rooms.GetLength(1); column++)
+            for (int column = 0; column < Randomizer.Columns; column++)
             {
                 Rooms[row, column] = new Room(RoomType.Empty, new Location { Row = row, Column = column});
             }
