@@ -1,6 +1,6 @@
 namespace The_Fountain_of_Objects.Scripts;
 
-public class Player()
+public class Player
 {
     public Location Location { get; private set; } = new Location { Row = 0, Column = 0};
     private InputActions _inputAction;
