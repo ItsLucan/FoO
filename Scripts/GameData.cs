@@ -50,17 +50,60 @@ public class GameData
             
             EntranceLocation = new Location(5, 0);
             FountainLocation = new Location(2, 9);
+            
             _pitLocations.Add(new Location(1, 3));
             _pitLocations.Add(new Location(7, 5));
+            
             _amarokLocations.Add(new Location(8, 1));
             _amarokLocations.Add(new Location(5, 8));
+            
             _maelstromLocations.Add(new Location(1, 0));
             _maelstromLocations.Add(new Location(2, 6));
         }
 
         if (difficulty == DifficultyChoice.Medium)
         {
+            Rows = 15;
+            Columns = 15;
             
+            EntranceLocation = new Location(9, 14);
+            FountainLocation = new Location(2, 3);
+            
+            _pitLocations.Add(new Location(3, 7));
+            _pitLocations.Add(new Location(5, 14));
+            _pitLocations.Add(new Location(11, 14));
+            
+            _amarokLocations.Add(new Location(4, 4));
+            _amarokLocations.Add(new Location(7, 7));
+            _amarokLocations.Add(new Location(13, 10));
+            
+            _maelstromLocations.Add(new Location(2, 12));
+            _maelstromLocations.Add(new Location(6, 10)); 
+            _maelstromLocations.Add(new Location(10, 7));
+        }
+
+        if (difficulty == DifficultyChoice.Hard)
+        {
+            Rows = 20;
+            Columns = 20;
+            
+            EntranceLocation = new Location(12, 10);
+            FountainLocation = new Location(0, 19);
+            
+            _pitLocations.Add(new Location(4, 13));
+            _pitLocations.Add(new Location(7, 4));
+            _pitLocations.Add(new Location(11, 10));
+            _pitLocations.Add(new Location(16, 17));
+            
+            _amarokLocations.Add(new Location(3, 6));
+            _amarokLocations.Add(new Location(10, 15));
+            _amarokLocations.Add(new Location(12, 11));
+            _amarokLocations.Add(new Location(18, 14));
+            
+            _maelstromLocations.Add(new Location(3, 18));
+            _maelstromLocations.Add(new Location(7, 9)); 
+            _maelstromLocations.Add(new Location(12, 7)); 
+            _maelstromLocations.Add(new Location(17, 3));
         }
         
         foreach (Location location in _pitLocations) _hazardLocations.Add(location);
