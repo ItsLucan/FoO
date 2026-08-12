@@ -5,7 +5,6 @@ public static class Randomizer
     private static readonly Random Random;
     public static readonly int Rows;
     public static readonly int Columns;
-    public static readonly Location EntranceLocation = GetSafeRandomLocation();
     private static readonly List<Location> RandomLocations;
     
     static Randomizer()
