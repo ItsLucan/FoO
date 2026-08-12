@@ -1,5 +1,3 @@
-using System.Diagnostics;
-
 namespace The_Fountain_of_Objects.Scripts;
 
 public class Game
@@ -11,79 +9,19 @@ public class Game
     private const string NegativeColor = "\e[38;2;172;48;0m";
     private const string FountainColor = "\e[38;2;60;120;255m";
     private const string ResetColor    = "\e[39m";
-    private readonly DifficultyChoice _difficulty;
-    private readonly int _rows;
-    private readonly int _columns;
-    private readonly Location _entranceLocation;
-    private readonly Location _fountainLocation;
-    private readonly Location[] _pitLocations;
-    private readonly Location[] _amarokLocations;
-    private readonly List<Location> _staticLocations;
     private readonly Player _player;
     private readonly Cave _cave;
     private readonly List<Location> _adjacentLocations = new List<Location>();
     private readonly List<Room> _adjacentRooms = new List<Room>();
-    private bool _isFountainRepaired = false;
-    private bool _isGameOver = false;
+    private bool _isFountainRepaired;
+    private bool _isGameOver;
     private Room _currentRoom;
     
-    public Game()
+    public Game(Player player, Cave cave)
     {
-        int difficultyNumber;
-        bool isDifficultySet = false;
-        do
-        {
-            Console.WriteLine("\n\n\n\n\t\t\t\tChoose a difficulty:");
-            Console.WriteLine("\t\t\t\t1 - Easy");
-            Console.WriteLine("\t\t\t\t2 - Medium");
-            Console.WriteLine("\t\t\t\t3 - Hard");
-            isDifficultySet = int.TryParse(Console.ReadLine(), out difficultyNumber) && difficultyNumber is >= 1 and <= 3;
-        } while (!isDifficultySet);
-            
-        _difficulty = difficultyNumber switch
-        {
-            1 => DifficultyChoice.Easy,
-            2 => DifficultyChoice.Medium, 
-            3 => DifficultyChoice.Hard,
-        };
-
-        if (_difficulty == DifficultyChoice.Easy)
-        {
-            _rows = 10;
-            _columns = 10;
-            _pitLocations = new Location[2];
-            _amarokLocations = new Location[2];
-            _staticLocations = new List<Location>();
-            
-            _entranceLocation = new Location(5, 0);
-            _fountainLocation = new Location(2, 9);
-            _pitLocations[0] = new Location(1, 3);
-            _pitLocations[1] = new Location(7, 5);
-            _amarokLocations[0] = new Location(8, 1);
-            _amarokLocations[1] = new Location(5, 8);
-            _player = new Player(_entranceLocation, _rows, _columns);
-            _cave = new Cave(_rows, _columns, _entranceLocation, _fountainLocation, _pitLocations, _amarokLocations);
-            _currentRoom = _cave.GetRoomAt(_entranceLocation);
-            
-            _staticLocations.Add(_entranceLocation);
-            _staticLocations.Add(_fountainLocation);
-            foreach (Location location in _pitLocations) _staticLocations.Add(location);
-            foreach (Location location in _amarokLocations) _staticLocations.Add(location);
-        }
-
-        if (_difficulty == DifficultyChoice.Medium)
-        {
-            _rows = 15;
-            _columns = 15;
-            _entranceLocation = new Location(0, 7);
-        }
-
-        if (_difficulty == DifficultyChoice.Hard)
-        {
-            _rows = 20;
-            _columns = 20;
-            _entranceLocation = new Location(9, 8);
-        }
+        _player = player;
+        _cave = cave;
+        _currentRoom = _cave.EntranceRoom;
     }
     
     public void Run()
@@ -113,8 +51,8 @@ public class Game
             
             if (_currentRoom.EnemyType == EnemyType.Maelstrom)
             {
-                _player.Teleport(Randomizer.GetRandomLocation());
-                _cave.MoveMaelstrom();
+                _cave.MoveMaelstrom(_player.Location);
+                _player.Teleport();
             }
             
             _player.GetInput();
@@ -178,15 +116,15 @@ public class Game
 
     private void GetAdjacentRoomSense(Room adjacentRoom)
     {
-            string? adjacentRoomText = adjacentRoom.RoomType switch
-            {
-                RoomType.Fountain                   => $"{HearColor}HEAR:{ResetColor} A faint dripping in the distance. The {FountainColor}fountain{ResetColor} is close.",
-                RoomType.Pit                        => $"{FeelColor}FEEL:{ResetColor} The howling breath of a hungry chasm. A {NegativeColor}pit{ResetColor} is nearby.",
-                RoomType.Entrance or RoomType.Empty => null,    
-                _                                   => "ERROR: ADJACENT ROOM UNACCOUNTED FOR."
-            };
+        string? adjacentRoomText = adjacentRoom.RoomType switch
+        {
+            RoomType.Fountain                   => $"{HearColor}HEAR:{ResetColor} A faint dripping in the distance. The {FountainColor}fountain{ResetColor} is close.",
+            RoomType.Pit                        => $"{FeelColor}FEEL:{ResetColor} The howling breath of a hungry chasm. A {NegativeColor}pit{ResetColor} is nearby.",
+            RoomType.Entrance or RoomType.Empty => null,    
+            _                                   => "ERROR: ADJACENT ROOM UNACCOUNTED FOR."
+        };
             
-            if (adjacentRoomText is not null) Console.WriteLine(adjacentRoomText);
+        if (adjacentRoomText is not null) Console.WriteLine(adjacentRoomText);
     }
 
     private void GetAdjacentEnemySense(Room adjacentRoom)
@@ -207,9 +145,9 @@ public class Game
     {
         _adjacentLocations.Clear();
         if (_player.Location.Row - 1 >= 0) _adjacentLocations.Add(_player.Location with { Row = _player.Location.Row - 1 });
-        if (_player.Location.Row + 1 < _rows) _adjacentLocations.Add(_player.Location with { Row = _player.Location.Row + 1 });
+        if (_player.Location.Row + 1 < _cave.Rows) _adjacentLocations.Add(_player.Location with { Row = _player.Location.Row + 1 });
         if (_player.Location.Column - 1 >= 0) _adjacentLocations.Add(_player.Location with { Column = _player.Location.Column - 1});
-        if (_player.Location.Column + 1 < _columns) _adjacentLocations.Add(_player.Location with { Column = _player.Location.Column + 1});
+        if (_player.Location.Column + 1 < _cave.Columns) _adjacentLocations.Add(_player.Location with { Column = _player.Location.Column + 1});
     }
     
     private void SetAdjacentRooms()
@@ -220,11 +158,10 @@ public class Game
     
     private void Display()
     {
-        for (int row = 0; row < _rows; row++)
+        for (int row = 0; row < _cave.Rows; row++)
         {
-            for (int column = 0; column < _columns; column++)
+            for (int column = 0; column < _cave.Columns; column++)
             {
-                
                 Console.Write(_cave.Rooms[row, column].IsPlayerHere ? "o " : "# ");
             }
 

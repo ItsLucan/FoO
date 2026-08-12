@@ -1,13 +1,13 @@
 namespace The_Fountain_of_Objects.Scripts;
 
-public class Player(Location spawnLocation, int rows, int columns)
+public class Player(GameData gameData)
 {
-    public Location Location { get; private set; } = spawnLocation;
+    public Location Location { get; private set; } = gameData.EntranceLocation;
     private InputActions _inputAction;
 
-    public void Teleport(Location location)
+    public void Teleport()
     {
-        Location = location;
+        Location = gameData.GetRandomLocation();
     }
     
     public void GetInput()
@@ -38,8 +38,8 @@ public class Player(Location spawnLocation, int rows, int columns)
         {
             InputActions.MoveUp when Location.Row - 1 >= 0                          => Location with { Row = Location.Row - 1 },
             InputActions.MoveLeft when Location.Column - 1 >= 0                     => Location with { Column = Location.Column - 1 },
-            InputActions.MoveDown when Location.Row + 1 < rows                      => Location with { Row = Location.Row + 1 },
-            InputActions.MoveRight when Location.Column + 1 < columns               => Location with { Column = Location.Column + 1 },
+            InputActions.MoveDown when Location.Row + 1 < gameData.Rows             => Location with { Row = Location.Row + 1 },
+            InputActions.MoveRight when Location.Column + 1 < gameData.Columns      => Location with { Column = Location.Column + 1 },
             _                                                                       => Location
         };
 
