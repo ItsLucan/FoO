@@ -90,15 +90,11 @@ public class Game
     {
         string? currentRoomText = _currentRoom.RoomType switch
         {
-            RoomType.Entrance when _isFountainRepaired  => $"{FeelColor}FEEL:{ResetColor} The warm embrace of the free sun through the caves entrance." +
-                                                           $" You have conquered The Uncoded Ones challenge.\n\nPress any key to quit.", 
-            RoomType.Fountain when _isFountainRepaired  => $"{HearColor}HEAR:{ResetColor} Water rushing from the {FountainColor}Fountain of objects{ResetColor}." +
-                                                           $" It is repaired.",
-            RoomType.Fountain                          => $"{SeeColor}SEE:{ResetColor} The silhouette of a large {FountainColor}fountain{ResetColor}." +
-                                                          $" You are in the fountain room.",
+            RoomType.Entrance when _isFountainRepaired  => $"{FeelColor}FEEL:{ResetColor} The warm embrace of the free sun through the caves entrance. You have conquered The Uncoded Ones challenge.\n\nPress any key to quit.", 
+            RoomType.Fountain when _isFountainRepaired  => $"{HearColor}HEAR:{ResetColor} Water rushing from the {FountainColor}Fountain of objects{ResetColor}. It is repaired.",
+            RoomType.Fountain                          => $"{SeeColor}SEE:{ResetColor} The silhouette of a large {FountainColor}fountain{ResetColor}. You are in the fountain room.",
             RoomType.Entrance                          => $"{SeeColor}SEE:{ResetColor} light from outside the cave. You are at the entrance.",
-            RoomType.Pit                               => $"{NegativeColor}GAME OVER:{ResetColor} You step onto ground with no substance, and tumble into a vast chasm." +
-                                                          $"\n\nPress any key to quit.",
+            RoomType.Pit                               => $"{NegativeColor}GAME OVER:{ResetColor} You step onto ground with no substance, and tumble into a vast chasm.\n\nPress any key to quit.",
             RoomType.Empty                             => null,
             _                                          => "ERROR: CURRENT ROOM UNACCOUNTED FOR."
         };
@@ -110,10 +106,8 @@ public class Game
     {
         string? currentEnemyText = _currentRoom.EnemyType switch
         {
-            EnemyType.Maelstrom => $"{FeelColor}FEEL:{ResetColor} The torrential strength of a {NegativeColor}Maelstrom{ResetColor}." +
-                                   $" You both are sent flying through the cave.\n\nPress any key to continue.",
-            EnemyType.Amarok    => $"{NegativeColor}GAME OVER:{ResetColor} You waltz into the maw of a foul {NegativeColor}Amarok{ResetColor}, who rends your flesh." +
-                                   $" You have died.\n\nPress any key to quit.",
+            EnemyType.Maelstrom => $"{FeelColor}FEEL:{ResetColor} The torrential strength of a {NegativeColor}Maelstrom{ResetColor}. You both are sent flying through the cave.\n\nPress any key to continue.",
+            EnemyType.Amarok    => $"{NegativeColor}GAME OVER:{ResetColor} You waltz into the maw of a foul {NegativeColor}Amarok{ResetColor}, who rends your flesh. You have died.\n\nPress any key to quit.",
             EnemyType.None      => null,
             _                   => "ERROR: CURRENT ENEMY UNACCOUNTED FOR."
         };
