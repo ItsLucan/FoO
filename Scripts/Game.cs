@@ -8,7 +8,6 @@ public class Game
     private const string SmellColor    = "\e[38;2;251;159;43m";
     private const string NegativeColor = "\e[38;2;172;48;0m";
     private const string FountainColor = "\e[38;2;60;120;255m";
-    private const string PlayerColor   = "\e[38;2;255;161;232m"; 
     private const string ResetColor    = "\e[39m";
     private readonly Player _player;
     private readonly Cave _cave;
@@ -163,7 +162,28 @@ public class Game
         {
             for (int column = 0; column < _cave.Columns; column++)
             {
-                Console.Write(_cave.Rooms[row, column].IsPlayerHere ? $"{PlayerColor}o{ResetColor} " : "# ");
+                if (_cave.Rooms[row, column].IsPlayerHere)
+                {
+                    if (_cave.Rooms[row, column].RoomType == RoomType.Pit ||
+                        _cave.Rooms[row, column].EnemyType == EnemyType.Amarok)
+                    {
+                        Console.Write("😵 ");
+                    }
+                    else Console.Write($"😊 ");
+                }
+                else if (_cave.Rooms[row, column].RoomType == RoomType.Entrance)
+                {
+                    Console.Write("🚪 ");
+                }
+                else if (_cave.Rooms[row, column].HasPlayerVisited)
+                {
+                    if (_cave.Rooms[row, column].RoomType == RoomType.Fountain) Console.Write("⛲ ");
+                    else Console.Write("   ");
+                }
+                else
+                {
+                    Console.Write("## ");
+                }
             }
 
             Console.WriteLine();

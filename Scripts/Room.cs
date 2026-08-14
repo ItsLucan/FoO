@@ -6,9 +6,19 @@ public class Room(RoomType roomType, Location location)
     public Location Location { get; } = location;
     public EnemyType EnemyType { get; private set; } = EnemyType.None;
     public bool IsPlayerHere { get; private set; } = false;
-    
-    
-    public void SetPlayerHere(bool isHere) => IsPlayerHere = isHere;
+    public bool HasPlayerVisited { get; private set; } = false;
 
+    public void SetPlayerHere(bool isHere)
+    {
+        IsPlayerHere = isHere;
+        if (IsPlayerHere)
+        {
+            if (!HasPlayerVisited)
+            {
+                HasPlayerVisited = true;    
+            }
+        }   
+    }
+    
     public void SetEnemyHere(EnemyType enemyType) => EnemyType = enemyType;
 }
