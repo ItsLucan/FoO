@@ -3,11 +3,17 @@ namespace The_Fountain_of_Objects.Scripts;
 public class Player(GameData gameData)
 {
     public Location Location { get; private set; } = gameData.EntranceLocation;
+    public int Arrows { get; private set; } = 5;
     private InputActions _inputAction;
 
     public void Teleport()
     {
         Location = gameData.GetRandomLocation();
+    }
+
+    public void Shoot()
+    {
+        Arrows--;
     }
     
     public void GetInput()

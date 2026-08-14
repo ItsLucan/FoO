@@ -58,7 +58,7 @@ public class Game
             _player.GetInput();
             if (_currentRoom.RoomType is RoomType.Fountain && _player.IsInputtingRepair())
             {
-                _isFountainRepaired = true;
+                if (!_isFountainRepaired) _isFountainRepaired = true;
             }
         }
     }
