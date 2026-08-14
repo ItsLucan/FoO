@@ -17,15 +17,19 @@ public class Game
     private bool _isGameOver;
     private Room _currentRoom;
     
-    public Game(Player player, Cave cave)
+    public Game()
     {
-        _player = player;
-        _cave = cave;
+        GameData gameData = new GameData();
+        _player = new Player(gameData);
+        _cave = new Cave(gameData);
         _currentRoom = _cave.EntranceRoom;
     }
     
     public void Run()
     {
+        Console.Write("You have entered the cave holding the fountain of objects. Can you survive?");
+        DisplayMenu(); 
+        
         while (true)
         {
             Console.Clear();
@@ -56,11 +60,33 @@ public class Game
             }
             
             _player.GetInput();
-            if (_currentRoom.RoomType is not RoomType.Fountain || !_player.IsInputtingRepair()) continue;
-            if (!_isFountainRepaired) _isFountainRepaired = true;
+            RepairOnInput();
+            if (_player.IsOpeningMenu()) DisplayMenu();
+            if (_player.IsShooting()) Shoot();
         }
     }
 
+    private void Shoot()
+    {
+        _player.RemoveArrow();
+    }
+    
+    private void DisplayMenu()
+    {
+            Console.Clear();
+            Console.WriteLine("MOVEMENT: WASD or Arrow keys");
+            Console.WriteLine("REPAIRING: R Key");
+            Console.WriteLine("To open this menu, press TAB");
+            Console.WriteLine("\nPress any key to exit menu.");
+            Console.ReadKey(true);     
+    }
+
+    private void RepairOnInput()
+    {
+        if (_currentRoom.RoomType is not RoomType.Fountain || !_player.IsInputtingRepair()) return;
+        if (!_isFountainRepaired) _isFountainRepaired = true;
+    }
+    
     private bool CheckIsGameOver()
     {
         return _currentRoom.RoomType is RoomType.Pit

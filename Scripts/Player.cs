@@ -11,7 +11,7 @@ public class Player(GameData gameData)
         Location = gameData.GetRandomLocation();
     }
 
-    public void Shoot()
+    public void RemoveArrow()
     {
         Arrows--;
     }
@@ -36,6 +36,16 @@ public class Player(GameData gameData)
     {
         return _inputAction == InputActions.Repair;
     }
+
+    public bool IsOpeningMenu()
+    {
+        return _inputAction == InputActions.Menu;
+    }
+
+    public bool IsShooting()
+    {
+        return _inputAction == InputActions.Shoot;
+    }
     
     private void CheckForMove()
     {
@@ -51,5 +61,5 @@ public class Player(GameData gameData)
         if (Location != desiredLocation) Location = desiredLocation;
     }
     
-    private enum InputActions { MoveUp, MoveDown, MoveLeft, MoveRight, Repair, Menu, UnAccounted }
+    private enum InputActions { MoveUp, MoveDown, MoveLeft, MoveRight, Repair, Shoot, Menu, UnAccounted }
 }
