@@ -33,9 +33,7 @@ public class Player(GameData gameData)
 
     public bool IsInputtingRepair()
     {
-        if (_inputAction == InputActions.Repair) return true;
-
-        return false;
+        return _inputAction == InputActions.Repair;
     }
     
     private void CheckForMove()
