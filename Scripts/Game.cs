@@ -56,23 +56,16 @@ public class Game
             }
             
             _player.GetInput();
-            if (_currentRoom.RoomType is RoomType.Fountain && _player.IsInputtingRepair())
-            {
-                if (!_isFountainRepaired) _isFountainRepaired = true;
-            }
+            if (_currentRoom.RoomType is not RoomType.Fountain || !_player.IsInputtingRepair()) continue;
+            if (!_isFountainRepaired) _isFountainRepaired = true;
         }
     }
 
     private bool CheckIsGameOver()
     {
-        if (_currentRoom.RoomType is RoomType.Pit
-            || _currentRoom.RoomType is RoomType.Entrance && _isFountainRepaired
-            || _currentRoom.EnemyType is EnemyType.Amarok)
-        {
-            return true;
-        }
-
-        return false;
+        return _currentRoom.RoomType is RoomType.Pit
+               || _currentRoom.RoomType is RoomType.Entrance && _isFountainRepaired
+               || _currentRoom.EnemyType is EnemyType.Amarok;
     }
     
     private void UpdatePlayerRoom()
