@@ -76,7 +76,7 @@ public class Game
             Console.Clear();
             Console.WriteLine("MOVEMENT: WASD or Arrow keys\n");
             //TODO need to have "shooting mode" exitable
-            Console.WriteLine("SHOOTING: Press spacebar to enter shoot mode.");
+            Console.WriteLine("SHOOTING: Press spacebar to enter shoot mode.\n");
             Console.WriteLine("REPAIRING: R Key\n");
             Console.WriteLine("To open this menu, press TAB\n");
             Console.WriteLine("Press any key to exit menu.");

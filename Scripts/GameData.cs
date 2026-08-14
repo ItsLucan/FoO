@@ -114,7 +114,7 @@ public class GameData
       //TODO Need to check for other difficulties, but there's going to be a bunch of code duplications. Not really sure how to handle that. 
     }
   
-    public Location UpdateEnemyLocations(Location maelstromLocation)
+    public Location MoveMaelstrom(Location maelstromLocation)
     {
             _maelstromLocations.Remove(maelstromLocation);
             _hazardLocations.Remove(maelstromLocation);

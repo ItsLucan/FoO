@@ -34,7 +34,7 @@ public class Cave
     public void MoveMaelstrom(Location maelstromLocation)
     {
         GetRoomAt(maelstromLocation).SetEnemyHere(EnemyType.None);
-        GetRoomAt(_gameData.UpdateEnemyLocations(maelstromLocation)).SetEnemyHere(EnemyType.Maelstrom);
+        GetRoomAt(_gameData.MoveMaelstrom(maelstromLocation)).SetEnemyHere(EnemyType.Maelstrom);
     }
     public Room GetRoomAt(Location location) => Rooms[location.Row, location.Column];
 }
