@@ -74,10 +74,12 @@ public class Game
     private void DisplayMenu()
     {
             Console.Clear();
-            Console.WriteLine("MOVEMENT: WASD or Arrow keys");
-            Console.WriteLine("REPAIRING: R Key");
-            Console.WriteLine("To open this menu, press TAB");
-            Console.WriteLine("\nPress any key to exit menu.");
+            Console.WriteLine("MOVEMENT: WASD or Arrow keys\n");
+            //TODO need to have "shooting mode" exitable
+            Console.WriteLine("SHOOTING: Press spacebar to enter shoot mode.");
+            Console.WriteLine("REPAIRING: R Key\n");
+            Console.WriteLine("To open this menu, press TAB\n");
+            Console.WriteLine("Press any key to exit menu.");
             Console.ReadKey(true);     
     }
 

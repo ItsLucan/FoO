@@ -21,6 +21,7 @@ public class Player(GameData gameData)
         _inputAction = Console.ReadKey(true).Key switch
         {
             ConsoleKey.R                          => InputActions.Repair,
+            ConsoleKey.Spacebar                   => InputActions.Shoot,
             ConsoleKey.Tab                        => InputActions.Menu,
             ConsoleKey.W or ConsoleKey.UpArrow    => InputActions.MoveUp,
             ConsoleKey.A or ConsoleKey.LeftArrow  => InputActions.MoveLeft,
@@ -61,5 +62,5 @@ public class Player(GameData gameData)
         if (Location != desiredLocation) Location = desiredLocation;
     }
     
-    private enum InputActions { MoveUp, MoveDown, MoveLeft, MoveRight, Repair, Shoot, Menu, UnAccounted }
+    private enum InputActions { UnAccounted, MoveUp, MoveDown, MoveLeft, MoveRight, Repair, Shoot, Menu  }
 }
