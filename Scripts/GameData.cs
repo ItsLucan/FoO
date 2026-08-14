@@ -28,6 +28,7 @@ public class GameData
         
         do
         {
+            Console.Clear();
             Console.WriteLine("Choose a difficulty:");
             Console.WriteLine("1 - Easy");
             Console.WriteLine("2 - Medium");
