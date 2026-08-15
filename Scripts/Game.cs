@@ -28,7 +28,7 @@ public class Game
     public void Run()
     {
         Console.Write("You have entered the cave holding the fountain of objects. Can you survive?");
-        DisplayMenu(); 
+        DisplayMenuOnInput(); 
         
         while (true)
         {
@@ -60,19 +60,23 @@ public class Game
             }
             
             _player.GetInput();
+            if (_player.ArrowLocation is not null)
+            {
+                Location copyLocation = (Location)_player.ArrowLocation;
+                Room targetLocation = _cave.GetRoomAt(copyLocation);
+                if (targetLocation.EnemyType != EnemyType.None) targetLocation.SetEnemyHere(EnemyType.None);
+            }
+            
             RepairOnInput();
-            if (_player.IsOpeningMenu()) DisplayMenu();
-            if (_player.IsShooting()) Shoot();
+            DisplayMenuOnInput();
         }
     }
-
-    private void Shoot()
-    {
-        _player.RemoveArrow();
-    }
     
-    private void DisplayMenu()
+    
+    private void DisplayMenuOnInput()
     {
+        if (!_player.IsOpeningMenu()) return;
+        
             Console.Clear();
             Console.WriteLine("MOVEMENT: WASD or Arrow keys\n");
             //TODO need to have "shooting mode" exitable
@@ -183,7 +187,11 @@ public class Game
         {
             for (int column = 0; column < _cave.Columns; column++)
             {
-                if (_cave.Rooms[row, column].IsPlayerHere)
+                if (_player.ArrowLocation is not null && _cave.Rooms[row, column].Location == _player.ArrowLocation)
+                {
+                    Console.Write("❌ ");
+                }
+                else if (_cave.Rooms[row, column].IsPlayerHere)
                 {
                     if (_cave.Rooms[row, column].RoomType == RoomType.Pit ||
                         _cave.Rooms[row, column].EnemyType == EnemyType.Amarok)
