@@ -37,9 +37,12 @@ public class Game
             SetAdjacentLocations();
             SetAdjacentRooms(); 
             Display();
+            Console.WriteLine("-------------------");
+            Console.WriteLine($"Current Arrows: {_player.Arrows}");
+            Console.WriteLine("-------------------");
             GetCurrentRoomSense();
             GetCurrentEnemySense();
-           
+            
             _isGameOver = CheckIsGameOver();
             if (_isGameOver)
             {

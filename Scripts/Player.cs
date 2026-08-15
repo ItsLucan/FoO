@@ -4,7 +4,7 @@ public class Player(GameData gameData)
 {
     public Location Location { get; private set; } = gameData.EntranceLocation;
     public Location? ArrowLocation { get; private set; }
-    private int _arrows = 5;
+    public int Arrows { get; private set; }= 5;
     private InputActions _inputAction;
     
     public void Teleport()
@@ -17,13 +17,20 @@ public class Player(GameData gameData)
         ProcessKeyPress();
         if (IsInputtingShoot())
         {
-            if (_arrows > 0)
+            if (Arrows <= 0) return;
+            Arrows--;
+            ArrowLocation = Location;
+            _inputAction = InputActions.UnAccounted;
+            
+            while (true)
             {
-                _arrows--;
+                if (_inputAction == InputActions.Shoot) return;
+                ProcessKeyPress();
+                ArrowLocation = MutateOnMove((Location)ArrowLocation);
             }
-            CheckForArrowMove();
-            ProcessKeyPress();
         }
+
+        ArrowLocation = null; 
         Location = MutateOnMove(Location);
     }
 
@@ -69,22 +76,6 @@ public class Player(GameData gameData)
         };
 
         return location = desiredLocation;
-    }
-
-    private void CheckForArrowMove()
-    {
-        if (ArrowLocation is null) return;
-        Location copyLocation = (Location)ArrowLocation;
-        ArrowLocation = _inputAction switch
-        {
-            InputActions.MoveUp when copyLocation.Row - 1 >= 0 => copyLocation with { Row = copyLocation.Row - 1 },
-            InputActions.MoveLeft when copyLocation.Column - 1 >= 0 => copyLocation with { Column = copyLocation.Column - 1 },
-            InputActions.MoveDown when copyLocation.Row + 1 < gameData.Rows => copyLocation with { Row = copyLocation.Row + 1 },
-            InputActions.MoveRight when copyLocation.Column + 1 < gameData.Columns => copyLocation with { Column = copyLocation.Column + 1 },
-            _ => Location
-        };
-
-        ArrowLocation = copyLocation;
     }
     
     private enum InputActions { UnAccounted, MoveUp, MoveDown, MoveLeft, MoveRight, Repair, Shoot, Menu  }
