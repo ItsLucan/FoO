@@ -62,7 +62,7 @@ public class Game
                 _player.Teleport();
             }
             
-            _player.ProcessInput();
+            _player.HandleInput();
             
             if (_player.ArrowLocation is not null)
             {

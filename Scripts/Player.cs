@@ -9,21 +9,20 @@ public class Player(GameData gameData)
     
    
     
-    public void ProcessInput()
+    public void HandleInput()
     {
-        ProcessKeyPress();
-        if (IsInputtingShoot())
+        _inputAction = GetInput();
+        if (IsInputtingShoot() && Arrows > 0)
         {
-            if (Arrows <= 0) return;
             Arrows--;
             ArrowLocation = Location;
-            _inputAction = InputActions.UnAccounted;
+            _inputAction = GetInput();
             
             while (true)
             {
                 if (_inputAction == InputActions.Shoot) return;
-                ProcessKeyPress();
                 ArrowLocation = MutateOnMove((Location)ArrowLocation);
+                _inputAction = GetInput();
             }
         }
 
@@ -55,9 +54,9 @@ public class Player(GameData gameData)
         return _inputAction == InputActions.Menu;
     }
 
-    private void ProcessKeyPress()
+    private InputActions GetInput()
     {
-        _inputAction = Console.ReadKey(true).Key switch
+        InputActions inputAction = Console.ReadKey(true).Key switch
         {
             ConsoleKey.R                          => InputActions.Repair,
             ConsoleKey.Spacebar                   => InputActions.Shoot,
@@ -68,6 +67,8 @@ public class Player(GameData gameData)
             ConsoleKey.D or ConsoleKey.RightArrow => InputActions.MoveRight,
             _                                     => InputActions.UnAccounted
         };
+
+        return inputAction;
     }
     
     private Location MutateOnMove(Location location)
