@@ -24,7 +24,7 @@ public class Player(GameData gameData)
             CheckForArrowMove();
             ProcessKeyPress();
         }
-        CheckForPlayerMove();
+        Location = MutateOnMove(Location);
     }
 
     private bool IsInputtingShoot()
@@ -57,19 +57,18 @@ public class Player(GameData gameData)
         };
     }
     
-    private void CheckForPlayerMove()
+    private Location MutateOnMove(Location location)
     {
-        
         Location desiredLocation = _inputAction switch
         {
-            InputActions.MoveUp when Location.Row - 1 >= 0                          => Location with { Row = Location.Row - 1 },
-            InputActions.MoveLeft when Location.Column - 1 >= 0                     => Location with { Column = Location.Column - 1 },
-            InputActions.MoveDown when Location.Row + 1 < gameData.Rows             => Location with { Row = Location.Row + 1 },
-            InputActions.MoveRight when Location.Column + 1 < gameData.Columns      => Location with { Column = Location.Column + 1 },
-            _                                                                       => Location 
+            InputActions.MoveUp when location.Row - 1 >= 0                          => location with { Row = location.Row - 1 },
+            InputActions.MoveLeft when location.Column - 1 >= 0                     => location with { Column = location.Column - 1 },
+            InputActions.MoveDown when location.Row + 1 < gameData.Rows             => location with { Row = location.Row + 1 },
+            InputActions.MoveRight when location.Column + 1 < gameData.Columns      => location with { Column = location.Column + 1 },
+            _                                                                       => location 
         };
 
-        Location = desiredLocation;
+        return location = desiredLocation;
     }
 
     private void CheckForArrowMove()
