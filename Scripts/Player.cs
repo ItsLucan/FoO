@@ -81,7 +81,7 @@ public class Player(GameData gameData)
             _                                                                       => location 
         };
 
-        return location = desiredLocation;
+        return desiredLocation;
     }
     
     private enum InputActions { UnAccounted, MoveUp, MoveDown, MoveLeft, MoveRight, Repair, Shoot, Menu  }
