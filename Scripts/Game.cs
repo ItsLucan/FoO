@@ -27,7 +27,6 @@ public class Game
     
     public void Run()
     {
-        Console.Write("You have entered the cave holding the fountain of objects. Can you survive?");
         DisplayMenu(); 
         
         while (true)
