@@ -10,14 +10,8 @@ public class Room(RoomType roomType, Location location)
 
     public void SetPlayerHere(bool isHere)
     {
-        IsPlayerHere = isHere;
-        if (IsPlayerHere)
-        {
-            if (!HasPlayerVisited)
-            {
-                HasPlayerVisited = true;    
-            }
-        }   
+        IsPlayerHere = isHere; 
+        if (!HasPlayerVisited) HasPlayerVisited = true;    
     }
     
     public void SetEnemyHere(EnemyType enemyType) => EnemyType = enemyType;
