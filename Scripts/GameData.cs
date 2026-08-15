@@ -5,16 +5,19 @@ public class GameData
     
     public readonly int Rows;
     public readonly int Columns;
-    private readonly Random _random;
     public readonly Location EntranceLocation;
     public readonly Location FountainLocation;
+    public IReadOnlyList<Location> PitLocations => _pitLocations.AsReadOnly();
+    public IReadOnlyList<Location> AmarokLocations => _amarokLocations.AsReadOnly();
+    public IReadOnlyList<Location> MaelstromLocations => _maelstromLocations.AsReadOnly();
+    private readonly Random _random;
     private readonly List<Location> _pitLocations;
     private readonly List<Location> _amarokLocations;
     private readonly List<Location> _maelstromLocations;
     private readonly List<Location> _hazardLocations;
-    public IReadOnlyList<Location> PitLocations => _pitLocations.AsReadOnly();
-    public IReadOnlyList<Location> AmarokLocations => _amarokLocations.AsReadOnly();
-    public IReadOnlyList<Location> MaelstromLocations => _maelstromLocations.AsReadOnly();
+    
+
+
   
     public GameData()
     {
