@@ -1,6 +1,6 @@
 namespace The_Fountain_of_Objects.Scripts;
 
-public class GameData
+public readonly struct GameData
 {
     
     public readonly int Rows;
@@ -113,8 +113,6 @@ public class GameData
         foreach (Location location in _pitLocations) _hazardLocations.Add(location);
         foreach (Location location in _amarokLocations) _hazardLocations.Add(location);
         foreach (Location location in _maelstromLocations) _hazardLocations.Add(location);
-        
-      //TODO Need to check for other difficulties, but there's going to be a bunch of code duplications. Not really sure how to handle that. 
     }
   
     public Location MoveMaelstrom(Location maelstromLocation)
