@@ -62,13 +62,15 @@ public class Game
                 _player.Teleport();
             }
             
-            _player.GetInput();
+            _player.ProcessInput();
+            
             if (_player.ArrowLocation is not null)
             {
-                Location copyLocation = (Location)_player.ArrowLocation;
-                Room targetLocation = _cave.GetRoomAt(copyLocation);
-                if (targetLocation.EnemyType != EnemyType.None) targetLocation.SetEnemyHere(EnemyType.None);
+                Room targetRoom = _cave.GetRoomAt((Location)_player.ArrowLocation);
+                if (targetRoom.EnemyType != EnemyType.None) targetRoom.SetEnemyHere(EnemyType.None);
+                _player.ResetArrow();
             }
+            
             
             RepairOnInput();
             DisplayMenuOnInput();

@@ -7,12 +7,9 @@ public class Player(GameData gameData)
     public int Arrows { get; private set; }= 5;
     private InputActions _inputAction;
     
-    public void Teleport()
-    {
-        Location = gameData.GetRandomLocation();
-    }
+   
     
-    public void GetInput()
+    public void ProcessInput()
     {
         ProcessKeyPress();
         if (IsInputtingShoot())
@@ -30,10 +27,19 @@ public class Player(GameData gameData)
             }
         }
 
-        ArrowLocation = null; 
         Location = MutateOnMove(Location);
     }
 
+    public void ResetArrow()
+    {
+        ArrowLocation = null;
+    }
+    
+    public void Teleport()
+    {
+        Location = gameData.GetRandomLocation();
+    } 
+    
     private bool IsInputtingShoot()
     { 
         return _inputAction == InputActions.Shoot;
