@@ -9,51 +9,27 @@ public class Player(GameData gameData)
     
    
     
-    public void HandleInput()
+    public void Move()
     {
         _inputAction = GetInput();
-        if (IsInputtingShoot() && Arrows > 0)
-        {
-            Arrows--;
-            ArrowLocation = Location;
-            _inputAction = GetInput();
-            
-            while (true)
-            {
-                if (_inputAction == InputActions.Shoot) return;
-                ArrowLocation = MutateOnMove((Location)ArrowLocation);
-                _inputAction = GetInput();
-            }
-        }
-
-        Location = MutateOnMove(Location);
-    }
-
-    public void ResetArrow()
-    {
-        ArrowLocation = null;
+        Location = MoveOnInput(Location);
     }
     
-    public void Teleport()
+    public void TryMoveArrow()
     {
-        Location = gameData.GetRandomLocation();
-    } 
-    
-    private bool IsInputtingShoot()
-    { 
-        return _inputAction == InputActions.Shoot;
+        if (ArrowLocation is null) return;
+        _inputAction = GetInput();
+        ArrowLocation = MoveOnInput((Location)ArrowLocation);
     }
     
-    public bool IsInputtingRepair()
-    {
-        return _inputAction == InputActions.Repair;
-    }
-
-    public bool IsOpeningMenu()
-    {
-        return _inputAction == InputActions.Menu;
-    }
-
+    public void Teleport() => Location = gameData.GetRandomLocation();
+    public bool IsInputtingRepair() => _inputAction == InputActions.Repair;
+    public bool IsInputtingShoot() => _inputAction == InputActions.Shoot;
+    public bool IsOpeningMenu() =>  _inputAction == InputActions.Menu;
+    public void SubtractArrow() => Arrows--;
+    public void SetArrowOnPlayer() => ArrowLocation = Location;
+    public void ResetArrow() => ArrowLocation = null;
+ 
     private InputActions GetInput()
     {
         InputActions inputAction = Console.ReadKey(true).Key switch
@@ -71,7 +47,7 @@ public class Player(GameData gameData)
         return inputAction;
     }
     
-    private Location MutateOnMove(Location location)
+    private Location MoveOnInput(Location location)
     {
         Location desiredLocation = _inputAction switch
         {
