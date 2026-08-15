@@ -3,7 +3,7 @@ namespace The_Fountain_of_Objects.Scripts;
 public class Player(GameData gameData)
 {
     public Location Location { get; private set; } = gameData.EntranceLocation;
-    public Location? ArrowLocation { get; private set; } = null;
+    public Location? ArrowLocation { get; private set; }
     private int _arrows = 5;
     private InputActions _inputAction;
     
@@ -15,24 +15,21 @@ public class Player(GameData gameData)
     public void GetInput()
     {
         ProcessKeyPress();
-        while (IsShooting())
+        if (IsInputtingShoot())
         {
+            if (_arrows > 0)
+            {
+                _arrows--;
+            }
             CheckForArrowMove();
             ProcessKeyPress();
         }
         CheckForPlayerMove();
     }
 
-    private bool IsShooting()
-    {
-        if (_arrows > 0)
-        {
-            if (_inputAction != InputActions.Shoot) return false;
-            _arrows--;
-            ArrowLocation = Location;
-        }
-        
-        return true;
+    private bool IsInputtingShoot()
+    { 
+        return _inputAction == InputActions.Shoot;
     }
     
     public bool IsInputtingRepair()
