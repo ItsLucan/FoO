@@ -1,7 +1,7 @@
 namespace The_Fountain_of_Objects.Scripts;
 
 
-public class SenseManager
+public class Sensor
 {
     private const string See           = $"\e[38;2;251;245;43mSEE:{ResetColor}";
     private const string Hear          = $"\e[38;2;137;251;43mHEAR:{ResetColor}";
