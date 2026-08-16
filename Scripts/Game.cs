@@ -42,7 +42,6 @@ public class Game
             DisplayCurrentRoomSense();
             DisplayCurrentEnemySense();
             
-            if (_isGameOver) break;
             if (_hasPlayerLost || _hasPlayerWon) break;
             
             foreach (Room room in _adjacentRooms)
