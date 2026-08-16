@@ -62,7 +62,8 @@ public class Game
     {
             Console.Clear();
             Console.WriteLine("MOVEMENT: WASD or Arrow keys\n");
-            Console.WriteLine("SHOOTING: Spacebar to draw an arrow, press again to confirm. Esc to cancel.\n");
+            Console.WriteLine("SHOOTING: Spacebar to draw an arrow, press again to confirm.");
+            Console.WriteLine("Esc (Not in pseudoterminal) or E to cancel.\n");
             Console.WriteLine("REPAIRING: R Key\n");
             Console.WriteLine("To open this menu, press TAB\n");
             Console.WriteLine("Press any key to exit menu.");
@@ -122,7 +123,7 @@ public class Game
             {
                 Location indexLocation = new Location(row, column);
                 
-                if      (_cave.GetRoomAt(indexLocation).Location == _player.ArrowLocation && _player.ArrowLocation is not null) Console.Write("❌ ");
+                if      (_cave.GetRoomAt(indexLocation).Location == _player.ArrowLocation && _player.ArrowLocation is not null) Console.Write("🏹 ");
                 else if (_cave.GetRoomAt(indexLocation).IsPlayerHere) Console.Write(_hasPlayerLost ? "😵 " : _hasPlayerWon ? $"🥳 " : "😊 ");
                 else if (_cave.GetRoomAt(indexLocation).RoomType == RoomType.Entrance) Console.Write("🚪 ");
                 else if (_cave.GetRoomAt(indexLocation).HasPlayerVisited) Console.Write(_cave.GetRoomAt(indexLocation).RoomType == RoomType.Fountain ? "⛲ " : "   ");
@@ -137,6 +138,7 @@ public class Game
         Console.WriteLine("-------------------");
         _sensor.DisplayCurrentSenses(_currentRoom, _isFountainRepaired);
     }
+    
     
     private void UpdateAdjacentLocations()
     {

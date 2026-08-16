@@ -35,7 +35,7 @@ public class Player(GameData gameData)
             ConsoleKey.A or ConsoleKey.LeftArrow  => InputActions.MoveLeft,
             ConsoleKey.S or ConsoleKey.DownArrow  => InputActions.MoveDown,
             ConsoleKey.D or ConsoleKey.RightArrow => InputActions.MoveRight,
-            ConsoleKey.Escape                     => InputActions.Escape,
+            ConsoleKey.Escape or ConsoleKey.E     => InputActions.Exit,
             _                                     => InputActions.UnAccounted
         };
 
@@ -61,12 +61,12 @@ public class Player(GameData gameData)
     public void Teleport() => Location = gameData.GetRandomLocation();
     public bool IsInputtingRepair() => _inputAction == InputActions.Repair;
     public bool IsInputtingShoot() => _inputAction == InputActions.Shoot;
-    public bool IsInputtingEscape() => _inputAction == InputActions.Escape;
+    public bool IsInputtingEscape() => _inputAction == InputActions.Exit;
     public bool IsOpeningMenu() =>  _inputAction == InputActions.Menu;
     public void SubtractArrow() => Arrows--;
     public void SetArrowHere() => ArrowLocation = Location;
     public void ResetArrow() => ArrowLocation = null; 
    
     
-    private enum InputActions { UnAccounted, MoveUp, MoveDown, MoveLeft, MoveRight, Repair, Shoot, Menu, Escape }
+    private enum InputActions { UnAccounted, MoveUp, MoveDown, MoveLeft, MoveRight, Repair, Shoot, Menu, Exit }
 }
