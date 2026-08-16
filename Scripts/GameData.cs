@@ -115,7 +115,7 @@ public readonly struct GameData
         foreach (Location location in _maelstromLocations) _hazardLocations.Add(location);
     }
   
-    public Location TeleportMaelstrom(Location maelstromLocation)
+    public Location ChangeMaelstromLocation(Location maelstromLocation)
     {
             _maelstromLocations.Remove(maelstromLocation);
             _hazardLocations.Remove(maelstromLocation);

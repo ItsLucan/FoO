@@ -24,7 +24,6 @@ public class Cave
         
         Rooms[_gameData.EntranceLocation.Row, _gameData.EntranceLocation.Column] = new Room(RoomType.Entrance, _gameData.EntranceLocation);
         Rooms[_gameData.FountainLocation.Row, _gameData.FountainLocation.Column] = new Room(RoomType.Fountain, _gameData.FountainLocation);
-        
         foreach (Location location in _gameData.PitLocations) Rooms[location.Row, location.Column] = new Room(RoomType.Pit, location);
         foreach (Location location in _gameData.AmarokLocations) GetRoomAt(location).SetEnemyHere(EnemyType.Amarok);
         foreach (Location location in _gameData.MaelstromLocations) GetRoomAt(location).SetEnemyHere(EnemyType.Maelstrom);
@@ -33,7 +32,7 @@ public class Cave
     public void MoveMaelstrom(Location maelstromLocation)
     {
         GetRoomAt(maelstromLocation).SetEnemyHere(EnemyType.None);
-        Room newMaelstromRoom = GetRoomAt(_gameData.TeleportMaelstrom(maelstromLocation));
+        Room newMaelstromRoom = GetRoomAt(_gameData.ChangeMaelstromLocation(maelstromLocation));
         newMaelstromRoom.SetEnemyHere(EnemyType.Maelstrom);
     }
     

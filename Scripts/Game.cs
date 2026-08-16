@@ -33,8 +33,8 @@ public class Game
         {
             Console.Clear();
             UpdatePlayerRoom();
-            SetAdjacentLocations();
-            SetAdjacentRooms(); 
+            UpdateAdjacentLocations();
+            UpdateAdjacentRooms(); 
             Display();
             GetCurrentRoomSense();
             GetCurrentEnemySense();
@@ -176,7 +176,7 @@ public class Game
         if (adjacentEnemyText is not null) Console.WriteLine(adjacentEnemyText);
     }
     
-    private void SetAdjacentLocations()
+    private void UpdateAdjacentLocations()
     {
         _adjacentLocations.Clear();
         if (_player.Location.Row - 1 >= 0) _adjacentLocations.Add(_player.Location with { Row = _player.Location.Row - 1 });
@@ -185,7 +185,7 @@ public class Game
         if (_player.Location.Column + 1 < _cave.Columns) _adjacentLocations.Add(_player.Location with { Column = _player.Location.Column + 1});
     }
     
-    private void SetAdjacentRooms()
+    private void UpdateAdjacentRooms()
     {
         _adjacentRooms.Clear();
         foreach (Location location in _adjacentLocations) _adjacentRooms.Add(_cave.GetRoomAt(location));
