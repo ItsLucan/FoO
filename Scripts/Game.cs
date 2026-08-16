@@ -40,11 +40,7 @@ public class Game
             
             if (_hasPlayerLost || _hasPlayerWon) break;
             
-            foreach (Room room in _adjacentRooms)
-            {
-                _senseManager.DisplayAdjacentRoomSenseAt(room); 
-                _senseManager.DisplayAdjacentEnemySenseAt(room);
-            }
+            foreach (Room room in _adjacentRooms) _senseManager.DisplayAdjacentSenses(room); 
             
             if (_currentRoom.EnemyType == EnemyType.Maelstrom)
             {
@@ -90,11 +86,7 @@ public class Game
         {
             Console.Clear();
             Display();
-            foreach (Room room in _adjacentRooms)
-            {
-                _senseManager.DisplayAdjacentRoomSenseAt(room); 
-                _senseManager.DisplayAdjacentEnemySenseAt(room);
-            }
+            foreach (Room room in _adjacentRooms) _senseManager.DisplayAdjacentSenses(room);
             _player.ProcessArrowInput();
         } 
         while (!_player.IsInputtingShoot() && !_player.IsInputtingEscape());
@@ -143,13 +135,8 @@ public class Game
         Console.WriteLine("-------------------");
         Console.WriteLine($"Current Arrows: {_player.Arrows}");
         Console.WriteLine("-------------------");
-        _senseManager.DisplayCurrentRoomSense(_currentRoom, _isFountainRepaired);
-        _senseManager.DisplayCurrentEnemySense(_currentRoom);
+        _senseManager.DisplayCurrentSenses(_currentRoom, _isFountainRepaired);
     }
-   
-    
-
-   
     
     private void UpdateAdjacentLocations()
     {

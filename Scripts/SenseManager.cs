@@ -10,9 +10,9 @@ public class SenseManager
     private const string NegativeColor = "\e[38;2;172;48;0m";
     private const string FountainColor = "\e[38;2;60;120;255m";
     private const string ResetColor    = "\e[39m";
-    
-    
-    public void DisplayCurrentRoomSense(Room currentRoom, bool isFountainRepaired)
+
+
+    public void DisplayCurrentSenses(Room currentRoom, bool isFountainRepaired)
     {
         string? currentRoomText = currentRoom.RoomType switch
         {
@@ -24,13 +24,7 @@ public class SenseManager
             RoomType.Empty                             => null,
             _                                          => "ERROR: CURRENT ROOM UNACCOUNTED FOR."
         };
-        
-        if (currentRoomText is not null) Console.WriteLine(currentRoomText); 
-    }
-   
-    
-    public void DisplayCurrentEnemySense(Room currentRoom)
-    {
+
         string? currentEnemyText = currentRoom.EnemyType switch
         {
             EnemyType.Maelstrom => $"{Feel} The torrential strength of a {NegativeColor}Maelstrom{ResetColor}. You both are sent flying through the cave.\n\nPress any key to continue.",
@@ -39,11 +33,12 @@ public class SenseManager
             _                   => "ERROR: CURRENT ENEMY UNACCOUNTED FOR."
         };
 
-        if (currentEnemyText is not null) Console.WriteLine(currentEnemyText);
+        if (currentRoomText is not null) Console.WriteLine(currentRoomText);
+        if (currentEnemyText is not null) Console.WriteLine(currentEnemyText);       
     }
 
-    
-    public void DisplayAdjacentRoomSenseAt(Room adjacentRoom)
+
+    public void DisplayAdjacentSenses(Room adjacentRoom)
     {
         string? adjacentRoomText = adjacentRoom.RoomType switch
         {
@@ -52,13 +47,7 @@ public class SenseManager
             RoomType.Entrance or RoomType.Empty => null,    
             _                                   => "ERROR: ADJACENT ROOM UNACCOUNTED FOR."
         };
-            
-        if (adjacentRoomText is not null) Console.WriteLine(adjacentRoomText);
-    }
 
-    
-    public void DisplayAdjacentEnemySenseAt(Room adjacentRoom)
-    {
         string? adjacentEnemyText = adjacentRoom.EnemyType switch
         {
             EnemyType.Maelstrom => $"{Feel} The ghastly winds of a {NegativeColor}Maelstrom{ResetColor} nearby.",
@@ -67,7 +56,8 @@ public class SenseManager
             _                   => "ERROR: ADJACENT ENEMY UNACCOUNTED FOR."
             
         }; 
-        
+       
+        if (adjacentRoomText is not null) Console.WriteLine(adjacentRoomText);
         if (adjacentEnemyText is not null) Console.WriteLine(adjacentEnemyText);
     }
 }
