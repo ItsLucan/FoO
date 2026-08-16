@@ -193,10 +193,11 @@ public class Game
         {
             for (int column = 0; column < _cave.Columns; column++)
             {
-                if (_player.ArrowLocation is not null && _cave.Rooms[row, column].Location == _player.ArrowLocation) Console.Write("❌ ");
-                else if (_cave.Rooms[row, column].IsPlayerHere) Console.Write(_hasPlayerLost ? "😵 " : _hasPlayerWon ? $"🥳 " : "😊 ");
-                else if (_cave.Rooms[row, column].RoomType == RoomType.Entrance) Console.Write("🚪 ");
-                else if (_cave.Rooms[row, column].HasPlayerVisited) Console.Write(_cave.Rooms[row, column].RoomType == RoomType.Fountain ? "⛲ " : "   ");
+                Location indexLocation = new Location(row, column);
+                if      (_cave.GetRoomAt(indexLocation).Location == _player.ArrowLocation && _player.ArrowLocation is not null) Console.Write("❌ ");
+                else if (_cave.GetRoomAt(indexLocation).IsPlayerHere) Console.Write(_hasPlayerLost ? "😵 " : _hasPlayerWon ? $"🥳 " : "😊 ");
+                else if (_cave.GetRoomAt(indexLocation).RoomType == RoomType.Entrance) Console.Write("🚪 ");
+                else if (_cave.GetRoomAt(indexLocation).HasPlayerVisited) Console.Write(_cave.GetRoomAt(indexLocation).RoomType == RoomType.Fountain ? "⛲ " : "   ");
                 else Console.Write("## ");
             }
 

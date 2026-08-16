@@ -2,29 +2,31 @@ namespace The_Fountain_of_Objects.Scripts;
 
 public class Cave
 {
-    public Room[,] Rooms { get; }
+    
     public int Rows { get; }
     public int Columns { get; }
     private readonly GameData _gameData;
+    private readonly Room[,] _rooms;
+    
     
     public Cave(GameData gameData)
     {
         _gameData = gameData;
         Rows = _gameData.Rows;
         Columns = _gameData.Columns;
-        Rooms = new Room[Rows, Columns];
+        _rooms = new Room[Rows, Columns];
         
         for (int row = 0; row < Rows; row++)
         {
             for (int column = 0; column < Columns; column++)
             {
-                Rooms[row, column] = new Room(RoomType.Empty, new Location { Row = row, Column = column});
+                _rooms[row, column] = new Room(RoomType.Empty, new Location { Row = row, Column = column});
             }
         }
         
-        Rooms[_gameData.EntranceLocation.Row, _gameData.EntranceLocation.Column] = new Room(RoomType.Entrance, _gameData.EntranceLocation);
-        Rooms[_gameData.FountainLocation.Row, _gameData.FountainLocation.Column] = new Room(RoomType.Fountain, _gameData.FountainLocation);
-        foreach (Location location in _gameData.PitLocations) Rooms[location.Row, location.Column] = new Room(RoomType.Pit, location);
+        _rooms[_gameData.EntranceLocation.Row, _gameData.EntranceLocation.Column] = new Room(RoomType.Entrance, _gameData.EntranceLocation);
+        _rooms[_gameData.FountainLocation.Row, _gameData.FountainLocation.Column] = new Room(RoomType.Fountain, _gameData.FountainLocation);
+        foreach (Location location in _gameData.PitLocations) _rooms[location.Row, location.Column] = new Room(RoomType.Pit, location);
         foreach (Location location in _gameData.AmarokLocations) GetRoomAt(location).SetEnemyHere(EnemyType.Amarok);
         foreach (Location location in _gameData.MaelstromLocations) GetRoomAt(location).SetEnemyHere(EnemyType.Maelstrom);
     }
@@ -36,5 +38,5 @@ public class Cave
         newMaelstromRoom.SetEnemyHere(EnemyType.Maelstrom);
     }
     
-    public Room GetRoomAt(Location location) => Rooms[location.Row, location.Column];
+    public Room GetRoomAt(Location location) => _rooms[location.Row, location.Column];
 }
