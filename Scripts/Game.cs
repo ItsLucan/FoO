@@ -91,7 +91,6 @@ public class Game
     {
             Console.Clear();
             Console.WriteLine("MOVEMENT: WASD or Arrow keys\n");
-            //TODO need to have "shooting mode" exit-able
             Console.WriteLine("SHOOTING: Spacebar to draw an arrow, press again to confirm. Esc to cancel.\n");
             Console.WriteLine("REPAIRING: R Key\n");
             Console.WriteLine("To open this menu, press TAB\n");
