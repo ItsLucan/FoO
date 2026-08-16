@@ -35,31 +35,26 @@ public class Game
             UpdatePlayerRoom();
             UpdateAdjacentLocations();
             UpdateAdjacentRooms();
-            _isGameOver = CheckIsGameOver();
+            _isGameOver = GetIsGameOver();
             Display();
-            GetCurrentRoomSense();
-            GetCurrentEnemySense();
+            DisplayCurrentRoomSense();
+            DisplayCurrentEnemySense();
             
-            
-            if (_isGameOver)
-            {
-                Console.ReadKey(true);
-                return;
-            }
+            if (_isGameOver) break;
             
             foreach (Room room in _adjacentRooms)
             {
-                GetAdjacentRoomSense(room); 
-                GetAdjacentEnemySense(room);
+                DisplayAdjacentRoomSenseFor(room); 
+                DisplayAdjacentEnemySenseFor(room);
             }
             
             if (_currentRoom.EnemyType == EnemyType.Maelstrom)
             {
-                _cave.MoveMaelstrom(_player.Location);
+                _cave.MoveMaelstromAt(_player.Location);
                 _player.Teleport();
             }
             
-            _player.GetMoveInput();
+            _player.ProcessMoveInput();
             
             if (_player.IsInputtingShoot() && _player.Arrows > 0)
             {
@@ -82,6 +77,8 @@ public class Game
             RepairOnInput();
             if (_player.IsOpeningMenu()) DisplayMenu();
         }
+
+        Console.ReadKey(true);
     }
     
     
@@ -103,7 +100,7 @@ public class Game
         if (!_isFountainRepaired) _isFountainRepaired = true;
     }
     
-    private bool CheckIsGameOver()
+    private bool GetIsGameOver()
     {
         return _currentRoom.RoomType is RoomType.Pit
                || _currentRoom.RoomType is RoomType.Entrance && _isFountainRepaired
@@ -121,7 +118,7 @@ public class Game
         _currentRoom.SetPlayerHere(true);
     }
     
-    private void GetCurrentRoomSense()
+    private void DisplayCurrentRoomSense()
     {
         string? currentRoomText = _currentRoom.RoomType switch
         {
@@ -137,7 +134,7 @@ public class Game
         if (currentRoomText is not null) Console.WriteLine(currentRoomText); 
     }
     
-    private void GetCurrentEnemySense()
+    private void DisplayCurrentEnemySense()
     {
         string? currentEnemyText = _currentRoom.EnemyType switch
         {
@@ -150,7 +147,7 @@ public class Game
         if (currentEnemyText is not null) Console.WriteLine(currentEnemyText);
     }
 
-    private void GetAdjacentRoomSense(Room adjacentRoom)
+    private void DisplayAdjacentRoomSenseFor(Room adjacentRoom)
     {
         string? adjacentRoomText = adjacentRoom.RoomType switch
         {
@@ -163,7 +160,7 @@ public class Game
         if (adjacentRoomText is not null) Console.WriteLine(adjacentRoomText);
     }
 
-    private void GetAdjacentEnemySense(Room adjacentRoom)
+    private void DisplayAdjacentEnemySenseFor(Room adjacentRoom)
     {
         string? adjacentEnemyText = adjacentRoom.EnemyType switch
         {
