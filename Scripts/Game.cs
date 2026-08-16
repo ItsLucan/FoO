@@ -58,34 +58,7 @@ public class Game
             }
             
             _player.ProcessInput();
-            
-            if (_player.IsInputtingShoot() && _player.Arrows > 0)
-            {
-                _player.SetArrowHere();
-                
-                do
-                {
-                    Console.Clear();
-                    Display();
-                    foreach (Room room in _adjacentRooms)
-                    {
-                        DisplayAdjacentRoomSenseAt(room); 
-                        DisplayAdjacentEnemySenseAt(room);
-                    }
-                    _player.ProcessArrowInput();
-                } 
-                while (!_player.IsInputtingShoot() && !_player.IsInputtingEscape());
-
-                if (!_player.IsInputtingEscape() && _player.ArrowLocation is not null)
-                {
-                    _player.SubtractArrow();
-                    Room targetRoom = _cave.GetRoomAt((Location)_player.ArrowLocation);
-                    if (targetRoom.EnemyType != EnemyType.None) targetRoom.SetEnemyHere(EnemyType.None);
-                }
-                
-                _player.ResetArrow();
-            }
-            
+            ShootOnInput();
             RepairOnInput();
             if (_player.IsOpeningMenu()) DisplayMenu();
         }
@@ -111,8 +84,37 @@ public class Game
         if (_currentRoom.RoomType != RoomType.Fountain || !_player.IsInputtingRepair()) return;
         if (!_isFountainRepaired) _isFountainRepaired = true;
     }
-    
 
+
+    private void ShootOnInput()
+    {
+        if (!_player.IsInputtingShoot() || _player.Arrows <= 0) return;
+        _player.SetArrowHere();
+        
+        do
+        {
+            Console.Clear();
+            Display();
+            foreach (Room room in _adjacentRooms)
+            {
+                DisplayAdjacentRoomSenseAt(room); 
+                DisplayAdjacentEnemySenseAt(room);
+            }
+            _player.ProcessArrowInput();
+        } 
+        while (!_player.IsInputtingShoot() && !_player.IsInputtingEscape());
+
+        if (!_player.IsInputtingEscape() && _player.ArrowLocation is not null)
+        {
+            _player.SubtractArrow();
+            Room targetRoom = _cave.GetRoomAt((Location)_player.ArrowLocation);
+            if (targetRoom.EnemyType != EnemyType.None) targetRoom.SetEnemyHere(EnemyType.None);
+        }
+                
+        _player.ResetArrow();
+    }
+    
+    
     private void UpdatePlayerRoom()
     {
         if (_currentRoom.Location != _player.Location)
