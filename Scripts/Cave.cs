@@ -5,7 +5,6 @@ public class Cave
     public Room[,] Rooms { get; }
     public int Rows { get; }
     public int Columns { get; }
-    public Room EntranceRoom { get; }
     private readonly GameData _gameData;
     
     public Cave(GameData gameData)
@@ -25,7 +24,6 @@ public class Cave
         
         Rooms[_gameData.EntranceLocation.Row, _gameData.EntranceLocation.Column] = new Room(RoomType.Entrance, _gameData.EntranceLocation);
         Rooms[_gameData.FountainLocation.Row, _gameData.FountainLocation.Column] = new Room(RoomType.Fountain, _gameData.FountainLocation);
-        EntranceRoom = GetRoomAt(_gameData.EntranceLocation);
         
         foreach (Location location in _gameData.PitLocations) Rooms[location.Row, location.Column] = new Room(RoomType.Pit, location);
         foreach (Location location in _gameData.AmarokLocations) GetRoomAt(location).SetEnemyHere(EnemyType.Amarok);

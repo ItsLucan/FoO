@@ -22,7 +22,7 @@ public class Game
         GameData gameData = new(); 
         _player = new Player(gameData);
         _cave = new Cave(gameData);
-        _currentRoom = _cave.EntranceRoom;
+        _currentRoom = _cave.GetRoomAt(gameData.EntranceLocation);
     }
     
     public void Run()
