@@ -42,15 +42,13 @@ public class Game
             _hasPlayerLost = _currentRoom.RoomType is RoomType.Pit || _currentRoom.EnemyType is EnemyType.Amarok;
             _hasPlayerWon = _currentRoom.RoomType is RoomType.Entrance && _isFountainRepaired;
             Display();
-            DisplayCurrentRoomSense();
-            DisplayCurrentEnemySense();
             
             if (_hasPlayerLost || _hasPlayerWon) break;
             
             foreach (Room room in _adjacentRooms)
             {
-                DisplayAdjacentRoomSenseFor(room); 
-                DisplayAdjacentEnemySenseFor(room);
+                DisplayAdjacentRoomSenseAt(room); 
+                DisplayAdjacentEnemySenseAt(room);
             }
             
             if (_currentRoom.EnemyType == EnemyType.Maelstrom)
@@ -69,8 +67,14 @@ public class Game
                 {
                     Console.Clear();
                     Display();
-                    _player.TryMoveArrow();
-                } while (!_player.IsInputtingShoot() && !_player.IsInputtingEscape());
+                    foreach (Room room in _adjacentRooms)
+                    {
+                        DisplayAdjacentRoomSenseAt(room); 
+                        DisplayAdjacentEnemySenseAt(room);
+                    }
+                    _player.ProcessArrowInput();
+                } 
+                while (!_player.IsInputtingShoot() && !_player.IsInputtingEscape());
 
                 if (!_player.IsInputtingEscape() && _player.ArrowLocation is not null)
                 {
@@ -152,7 +156,7 @@ public class Game
     }
 
     
-    private void DisplayAdjacentRoomSenseFor(Room adjacentRoom)
+    private void DisplayAdjacentRoomSenseAt(Room adjacentRoom)
     {
         string? adjacentRoomText = adjacentRoom.RoomType switch
         {
@@ -166,7 +170,7 @@ public class Game
     }
 
     
-    private void DisplayAdjacentEnemySenseFor(Room adjacentRoom)
+    private void DisplayAdjacentEnemySenseAt(Room adjacentRoom)
     {
         string? adjacentEnemyText = adjacentRoom.EnemyType switch
         {
@@ -205,6 +209,7 @@ public class Game
             for (int column = 0; column < _cave.Columns; column++)
             {
                 Location indexLocation = new Location(row, column);
+                
                 if      (_cave.GetRoomAt(indexLocation).Location == _player.ArrowLocation && _player.ArrowLocation is not null) Console.Write("❌ ");
                 else if (_cave.GetRoomAt(indexLocation).IsPlayerHere) Console.Write(_hasPlayerLost ? "😵 " : _hasPlayerWon ? $"🥳 " : "😊 ");
                 else if (_cave.GetRoomAt(indexLocation).RoomType == RoomType.Entrance) Console.Write("🚪 ");
@@ -217,6 +222,8 @@ public class Game
         
         Console.WriteLine("-------------------");
         Console.WriteLine($"Current Arrows: {_player.Arrows}");
-        Console.WriteLine("-------------------"); 
+        Console.WriteLine("-------------------");
+        DisplayCurrentRoomSense();
+        DisplayCurrentEnemySense(); 
     }
 }
