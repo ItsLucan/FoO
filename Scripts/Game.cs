@@ -36,9 +36,6 @@ public class Game
             SetAdjacentLocations();
             SetAdjacentRooms(); 
             Display();
-            Console.WriteLine("-------------------");
-            Console.WriteLine($"Current Arrows: {_player.Arrows}");
-            Console.WriteLine("-------------------");
             GetCurrentRoomSense();
             GetCurrentEnemySense();
             
@@ -61,20 +58,19 @@ public class Game
                 _player.Teleport();
             }
             
-            _player.Move();
+            _player.GetMoveInput();
             
             if (_player.IsInputtingShoot() && _player.Arrows > 0)
             {
                 _player.SetArrowOnPlayer();
-                
-                while (true)
+
+                do
                 {
                     Console.Clear();
                     Display();
                     _player.TryMoveArrow();
-                    if (_player.IsInputtingShoot() ) break;
-                }
-                
+                } while (!_player.IsInputtingShoot());
+
                 if (_player.ArrowLocation is null) return;
                 _player.SubtractArrow();
                 Room targetRoom = _cave.GetRoomAt((Location)_player.ArrowLocation);
@@ -92,7 +88,7 @@ public class Game
     {
             Console.Clear();
             Console.WriteLine("MOVEMENT: WASD or Arrow keys\n");
-            //TODO need to have "shooting mode" exitable
+            //TODO need to have "shooting mode" exit-able
             Console.WriteLine("SHOOTING: Press spacebar to draw an arrow, and press again to confirm.\n");
             Console.WriteLine("REPAIRING: R Key\n");
             Console.WriteLine("To open this menu, press TAB\n");
@@ -220,8 +216,7 @@ public class Game
                 }
                 else if (_cave.Rooms[row, column].HasPlayerVisited)
                 {
-                    if (_cave.Rooms[row, column].RoomType == RoomType.Fountain) Console.Write("⛲ ");
-                    else Console.Write("   ");
+                    Console.Write(_cave.Rooms[row, column].RoomType == RoomType.Fountain ? "⛲ " : "   ");
                 }
                 else
                 {
@@ -231,5 +226,9 @@ public class Game
 
             Console.WriteLine();
         }
+        
+        Console.WriteLine("-------------------");
+        Console.WriteLine($"Current Arrows: {_player.Arrows}");
+        Console.WriteLine("-------------------"); 
     }
 }

@@ -9,7 +9,7 @@ public class Player(GameData gameData)
     
    
     
-    public void Move()
+    public void GetMoveInput()
     {
         _inputAction = GetInput();
         Location = MoveOnInput(Location);
