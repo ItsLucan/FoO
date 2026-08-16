@@ -11,15 +11,15 @@ public class Game
     private const string ResetColor    = "\e[39m";
     private readonly Player _player;
     private readonly Cave _cave;
-    private readonly List<Location> _adjacentLocations = new();
-    private readonly List<Room> _adjacentRooms = new();
+    private readonly List<Location> _adjacentLocations = [];
+    private readonly List<Room> _adjacentRooms = [];
     private bool _isFountainRepaired;
     private bool _isGameOver;
     private Room _currentRoom;
     
     public Game()
     {
-        GameData gameData = new GameData();
+        GameData gameData = new(); 
         _player = new Player(gameData);
         _cave = new Cave(gameData);
         _currentRoom = _cave.EntranceRoom;
