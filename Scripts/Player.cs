@@ -61,7 +61,7 @@ public class Player(GameData gameData)
     public void Teleport() => Location = gameData.GetRandomLocation();
     public bool IsInputtingRepair() => _inputAction == InputActions.Repair;
     public bool IsInputtingShoot() => _inputAction == InputActions.Shoot;
-    public bool IsInputtingEscape() => _inputAction == InputActions.Exit;
+    public bool IsInputtingExit() => _inputAction == InputActions.Exit;
     public bool IsOpeningMenu() =>  _inputAction == InputActions.Menu;
     public void SubtractArrow() => Arrows--;
     public void SetArrowHere() => ArrowLocation = Location;

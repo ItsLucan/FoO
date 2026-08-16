@@ -90,9 +90,9 @@ public class Game
             foreach (Room room in _adjacentRooms) _sensor.DisplayAdjacentSenses(room);
             _player.ProcessArrowInput();
         } 
-        while (!_player.IsInputtingShoot() && !_player.IsInputtingEscape());
+        while (!_player.IsInputtingShoot() && !_player.IsInputtingExit());
 
-        if (!_player.IsInputtingEscape() && _player.ArrowLocation is not null)
+        if (!_player.IsInputtingExit() && _player.ArrowLocation is not null)
         {
             _player.SubtractArrow();
             Room targetRoom = _cave.GetRoomAt((Location)_player.ArrowLocation);
