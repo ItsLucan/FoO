@@ -50,7 +50,7 @@ public class Game
             
             if (_currentRoom.EnemyType == EnemyType.Maelstrom)
             {
-                _cave.MoveMaelstromAt(_player.Location);
+                _cave.TeleportMaelstromAt(_player.Location);
                 _player.Teleport();
             }
             

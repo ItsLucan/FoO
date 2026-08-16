@@ -29,7 +29,7 @@ public class Cave
         foreach (Location location in _gameData.MaelstromLocations) GetRoomAt(location).SetEnemyHere(EnemyType.Maelstrom);
     }
 
-    public void MoveMaelstromAt(Location maelstromLocation)
+    public void TeleportMaelstromAt(Location maelstromLocation)
     {
         GetRoomAt(maelstromLocation).SetEnemyHere(EnemyType.None);
         Room newMaelstromRoom = GetRoomAt(_gameData.ChangeMaelstromLocation(maelstromLocation));
