@@ -123,7 +123,33 @@ public class Game
 
         _currentRoom.SetPlayerHere(true);
     }
+    
+    
+    private void Display()
+    {
+        for (int row = 0; row < _cave.Rows; row++)
+        {
+            for (int column = 0; column < _cave.Columns; column++)
+            {
+                Location indexLocation = new Location(row, column);
+                
+                if      (_cave.GetRoomAt(indexLocation).Location == _player.ArrowLocation && _player.ArrowLocation is not null) Console.Write("❌ ");
+                else if (_cave.GetRoomAt(indexLocation).IsPlayerHere) Console.Write(_hasPlayerLost ? "😵 " : _hasPlayerWon ? $"🥳 " : "😊 ");
+                else if (_cave.GetRoomAt(indexLocation).RoomType == RoomType.Entrance) Console.Write("🚪 ");
+                else if (_cave.GetRoomAt(indexLocation).HasPlayerVisited) Console.Write(_cave.GetRoomAt(indexLocation).RoomType == RoomType.Fountain ? "⛲ " : "   ");
+                else Console.Write("## ");
+            }
 
+            Console.WriteLine();
+        }
+        
+        Console.WriteLine("-------------------");
+        Console.WriteLine($"Current Arrows: {_player.Arrows}");
+        Console.WriteLine("-------------------");
+        DisplayCurrentRoomSense();
+        DisplayCurrentEnemySense();
+    }
+   
     
     private void DisplayCurrentRoomSense()
     {
@@ -200,30 +226,4 @@ public class Game
         _adjacentRooms.Clear();
         foreach (Location location in _adjacentLocations) _adjacentRooms.Add(_cave.GetRoomAt(location));
     }   
-   
-    
-    private void Display()
-    {
-        for (int row = 0; row < _cave.Rows; row++)
-        {
-            for (int column = 0; column < _cave.Columns; column++)
-            {
-                Location indexLocation = new Location(row, column);
-                
-                if      (_cave.GetRoomAt(indexLocation).Location == _player.ArrowLocation && _player.ArrowLocation is not null) Console.Write("❌ ");
-                else if (_cave.GetRoomAt(indexLocation).IsPlayerHere) Console.Write(_hasPlayerLost ? "😵 " : _hasPlayerWon ? $"🥳 " : "😊 ");
-                else if (_cave.GetRoomAt(indexLocation).RoomType == RoomType.Entrance) Console.Write("🚪 ");
-                else if (_cave.GetRoomAt(indexLocation).HasPlayerVisited) Console.Write(_cave.GetRoomAt(indexLocation).RoomType == RoomType.Fountain ? "⛲ " : "   ");
-                else Console.Write("## ");
-            }
-
-            Console.WriteLine();
-        }
-        
-        Console.WriteLine("-------------------");
-        Console.WriteLine($"Current Arrows: {_player.Arrows}");
-        Console.WriteLine("-------------------");
-        DisplayCurrentRoomSense();
-        DisplayCurrentEnemySense(); 
-    }
 }
