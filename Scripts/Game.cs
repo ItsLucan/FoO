@@ -102,7 +102,7 @@ public class Game
 
     private void RepairOnInput()
     {
-        if (_currentRoom.RoomType is not RoomType.Fountain || !_player.IsInputtingRepair()) return;
+        if (_currentRoom.RoomType != RoomType.Fountain || !_player.IsInputtingRepair()) return;
         if (!_isFountainRepaired) _isFountainRepaired = true;
     }
     
