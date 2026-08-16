@@ -115,7 +115,7 @@ public class Game
     
     private void UpdatePlayerRoom()
     {
-        if (!_player.Location.Equals(_currentRoom.Location))
+        if (_currentRoom.Location != _player.Location)
         {
             _currentRoom.SetPlayerHere(false);
             _currentRoom = _cave.GetRoomAt(_player.Location);
@@ -123,6 +123,7 @@ public class Game
 
         _currentRoom.SetPlayerHere(true);
     }
+    
     private void GetCurrentRoomSense()
     {
         string? currentRoomText = _currentRoom.RoomType switch
