@@ -14,7 +14,8 @@ public class Game
     private readonly List<Location> _adjacentLocations = [];
     private readonly List<Room> _adjacentRooms = [];
     private bool _isFountainRepaired;
-    private bool _isGameOver;
+    private bool _hasPlayerLost;
+    private bool _hasPlayerWon;
     private Room _currentRoom;
     
     public Game()
@@ -35,12 +36,14 @@ public class Game
             UpdatePlayerRoom();
             UpdateAdjacentLocations();
             UpdateAdjacentRooms();
-            _isGameOver = GetIsGameOver();
+            _hasPlayerLost = _currentRoom.RoomType is RoomType.Pit || _currentRoom.EnemyType is EnemyType.Amarok;
+            _hasPlayerWon = _currentRoom.RoomType is RoomType.Entrance && _isFountainRepaired;
             Display();
             DisplayCurrentRoomSense();
             DisplayCurrentEnemySense();
             
             if (_isGameOver) break;
+            if (_hasPlayerLost || _hasPlayerWon) break;
             
             foreach (Room room in _adjacentRooms)
             {
@@ -103,13 +106,7 @@ public class Game
         if (!_isFountainRepaired) _isFountainRepaired = true;
     }
     
-    private bool GetIsGameOver()
-    {
-        return _currentRoom.RoomType is RoomType.Pit
-               || _currentRoom.RoomType is RoomType.Entrance && _isFountainRepaired
-               || _currentRoom.EnemyType is EnemyType.Amarok;
-    }
-    
+
     private void UpdatePlayerRoom()
     {
         if (_currentRoom.Location != _player.Location)
@@ -204,7 +201,7 @@ public class Game
                 }
                 else if (_cave.Rooms[row, column].IsPlayerHere)
                 {
-                    Console.Write(_isGameOver ? "😵 " : $"😊 ");
+                    Console.Write(_hasPlayerLost ? "😵 " : _hasPlayerWon? $"🥳 " : "😊 ");
                 }
                 else if (_cave.Rooms[row, column].RoomType == RoomType.Entrance)
                 {
