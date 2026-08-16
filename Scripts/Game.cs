@@ -54,23 +54,26 @@ public class Game
                 _player.Teleport();
             }
             
-            _player.ProcessMoveInput();
+            _player.ProcessInput();
             
             if (_player.IsInputtingShoot() && _player.Arrows > 0)
             {
-                _player.SetArrowOnPlayer();
-
+                _player.SetArrowHere();
+                
                 do
                 {
                     Console.Clear();
                     Display();
                     _player.TryMoveArrow();
-                } while (!_player.IsInputtingShoot());
+                } while (!_player.IsInputtingShoot() && !_player.IsInputtingEscape());
 
-                if (_player.ArrowLocation is null) return;
-                _player.SubtractArrow();
-                Room targetRoom = _cave.GetRoomAt((Location)_player.ArrowLocation);
-                if (targetRoom.EnemyType != EnemyType.None) targetRoom.SetEnemyHere(EnemyType.None);
+                if (!_player.IsInputtingEscape() && _player.ArrowLocation is not null)
+                {
+                    _player.SubtractArrow();
+                    Room targetRoom = _cave.GetRoomAt((Location)_player.ArrowLocation);
+                    if (targetRoom.EnemyType != EnemyType.None) targetRoom.SetEnemyHere(EnemyType.None);
+                }
+                
                 _player.ResetArrow();
             }
             
@@ -87,7 +90,7 @@ public class Game
             Console.Clear();
             Console.WriteLine("MOVEMENT: WASD or Arrow keys\n");
             //TODO need to have "shooting mode" exit-able
-            Console.WriteLine("SHOOTING: Press spacebar to draw an arrow, and press again to confirm.\n");
+            Console.WriteLine("SHOOTING: Spacebar to draw an arrow, press again to confirm. Esc to cancel.\n");
             Console.WriteLine("REPAIRING: R Key\n");
             Console.WriteLine("To open this menu, press TAB\n");
             Console.WriteLine("Press any key to exit menu.");

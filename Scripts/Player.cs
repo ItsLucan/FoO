@@ -9,25 +9,26 @@ public class Player(GameData gameData)
     
    
     
-    public void ProcessMoveInput()
+    public void ProcessInput()
     {
         _inputAction = GetInput();
-        Location = MoveOnInput(Location);
+        Location = MoveOnInputFrom(Location);
     }
     
     public void TryMoveArrow()
     {
         if (ArrowLocation is null) return;
         _inputAction = GetInput();
-        ArrowLocation = MoveOnInput((Location)ArrowLocation);
+        ArrowLocation = MoveOnInputFrom((Location)ArrowLocation);
     }
     
     public void Teleport() => Location = gameData.GetRandomLocation();
     public bool IsInputtingRepair() => _inputAction == InputActions.Repair;
     public bool IsInputtingShoot() => _inputAction == InputActions.Shoot;
+    public bool IsInputtingEscape() => _inputAction == InputActions.Escape;
     public bool IsOpeningMenu() =>  _inputAction == InputActions.Menu;
     public void SubtractArrow() => Arrows--;
-    public void SetArrowOnPlayer() => ArrowLocation = Location;
+    public void SetArrowHere() => ArrowLocation = Location;
     public void ResetArrow() => ArrowLocation = null;
  
     private InputActions GetInput()
@@ -41,13 +42,14 @@ public class Player(GameData gameData)
             ConsoleKey.A or ConsoleKey.LeftArrow  => InputActions.MoveLeft,
             ConsoleKey.S or ConsoleKey.DownArrow  => InputActions.MoveDown,
             ConsoleKey.D or ConsoleKey.RightArrow => InputActions.MoveRight,
+            ConsoleKey.Escape                     => InputActions.Escape,
             _                                     => InputActions.UnAccounted
         };
 
         return inputAction;
     }
     
-    private Location MoveOnInput(Location location)
+    private Location MoveOnInputFrom(Location location)
     {
         Location desiredLocation = _inputAction switch
         {
@@ -61,5 +63,5 @@ public class Player(GameData gameData)
         return desiredLocation;
     }
     
-    private enum InputActions { UnAccounted, MoveUp, MoveDown, MoveLeft, MoveRight, Repair, Shoot, Menu  }
+    private enum InputActions { UnAccounted, MoveUp, MoveDown, MoveLeft, MoveRight, Repair, Shoot, Menu, Escape }
 }
