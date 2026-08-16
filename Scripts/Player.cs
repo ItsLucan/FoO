@@ -1,5 +1,6 @@
 namespace The_Fountain_of_Objects.Scripts;
 
+
 public class Player(GameData gameData)
 {
     public Location Location { get; private set; } = gameData.EntranceLocation;
@@ -7,13 +8,13 @@ public class Player(GameData gameData)
     public int Arrows { get; private set; }= 5;
     private InputActions _inputAction;
     
-   
     
     public void ProcessInput()
     {
         _inputAction = GetInput();
         Location = MoveOnInputFrom(Location);
     }
+   
     
     public void TryMoveArrow()
     {
@@ -22,14 +23,6 @@ public class Player(GameData gameData)
         ArrowLocation = MoveOnInputFrom((Location)ArrowLocation);
     }
     
-    public void Teleport() => Location = gameData.GetRandomLocation();
-    public bool IsInputtingRepair() => _inputAction == InputActions.Repair;
-    public bool IsInputtingShoot() => _inputAction == InputActions.Shoot;
-    public bool IsInputtingEscape() => _inputAction == InputActions.Escape;
-    public bool IsOpeningMenu() =>  _inputAction == InputActions.Menu;
-    public void SubtractArrow() => Arrows--;
-    public void SetArrowHere() => ArrowLocation = Location;
-    public void ResetArrow() => ArrowLocation = null;
  
     private InputActions GetInput()
     {
@@ -48,6 +41,7 @@ public class Player(GameData gameData)
 
         return inputAction;
     }
+   
     
     private Location MoveOnInputFrom(Location location)
     {
@@ -62,6 +56,17 @@ public class Player(GameData gameData)
 
         return desiredLocation;
     }
+   
+    
+    public void Teleport() => Location = gameData.GetRandomLocation();
+    public bool IsInputtingRepair() => _inputAction == InputActions.Repair;
+    public bool IsInputtingShoot() => _inputAction == InputActions.Shoot;
+    public bool IsInputtingEscape() => _inputAction == InputActions.Escape;
+    public bool IsOpeningMenu() =>  _inputAction == InputActions.Menu;
+    public void SubtractArrow() => Arrows--;
+    public void SetArrowHere() => ArrowLocation = Location;
+    public void ResetArrow() => ArrowLocation = null; 
+   
     
     private enum InputActions { UnAccounted, MoveUp, MoveDown, MoveLeft, MoveRight, Repair, Shoot, Menu, Escape }
 }

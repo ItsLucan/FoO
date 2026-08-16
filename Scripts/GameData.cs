@@ -1,8 +1,8 @@
 namespace The_Fountain_of_Objects.Scripts;
 
+
 public readonly struct GameData
 {
-    
     public readonly int Rows;
     public readonly int Columns;
     public readonly Location EntranceLocation;
@@ -15,10 +15,8 @@ public readonly struct GameData
     private readonly List<Location> _amarokLocations;
     private readonly List<Location> _maelstromLocations;
     private readonly List<Location> _hazardLocations;
+   
     
-
-
-  
     public GameData()
     {
         _random = new Random();
@@ -114,7 +112,8 @@ public readonly struct GameData
         foreach (Location location in _amarokLocations) _hazardLocations.Add(location);
         foreach (Location location in _maelstromLocations) _hazardLocations.Add(location);
     }
-  
+
+    
     public Location ChangeMaelstromLocation(Location maelstromLocation)
     {
             _maelstromLocations.Remove(maelstromLocation);
@@ -125,6 +124,7 @@ public readonly struct GameData
 
             return newLocation;
     }
+   
     
     private Location GetLocationNoHazards()
     {
@@ -138,11 +138,13 @@ public readonly struct GameData
         _hazardLocations.Add(randomLocation);
         return randomLocation; 
     }
+   
     
     public Location GetRandomLocation()
     {
         return new Location(_random.Next(0, Rows), _random.Next(0, Columns));
     } 
+   
     
     private enum DifficultyChoice { Easy, Medium, Hard } 
 }

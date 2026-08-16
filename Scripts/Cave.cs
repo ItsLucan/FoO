@@ -1,8 +1,8 @@
 namespace The_Fountain_of_Objects.Scripts;
 
+
 public class Cave
 {
-    
     public int Rows { get; }
     public int Columns { get; }
     private readonly GameData _gameData;
@@ -31,12 +31,14 @@ public class Cave
         foreach (Location location in _gameData.MaelstromLocations) GetRoomAt(location).SetEnemyHere(EnemyType.Maelstrom);
     }
 
+    
     public void TeleportMaelstromAt(Location maelstromLocation)
     {
         GetRoomAt(maelstromLocation).SetEnemyHere(EnemyType.None);
         Room newMaelstromRoom = GetRoomAt(_gameData.ChangeMaelstromLocation(maelstromLocation));
         newMaelstromRoom.SetEnemyHere(EnemyType.Maelstrom);
     }
+   
     
     public Room GetRoomAt(Location location) => _rooms[location.Row, location.Column];
 }

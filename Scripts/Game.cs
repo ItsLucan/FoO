@@ -1,5 +1,6 @@
 namespace The_Fountain_of_Objects.Scripts;
 
+
 public class Game
 {
     private const string See           = $"\e[38;2;251;245;43mSEE:{ResetColor}";
@@ -17,6 +18,7 @@ public class Game
     private bool _hasPlayerLost;
     private bool _hasPlayerWon;
     private Room _currentRoom;
+   
     
     public Game()
     {
@@ -25,6 +27,7 @@ public class Game
         _cave = new Cave(gameData);
         _currentRoom = _cave.GetRoomAt(gameData.EntranceLocation);
     }
+   
     
     public void Run()
     {
@@ -98,6 +101,7 @@ public class Game
             Console.ReadKey(true);     
     }
 
+    
     private void RepairOnInput()
     {
         if (_currentRoom.RoomType != RoomType.Fountain || !_player.IsInputtingRepair()) return;
@@ -115,6 +119,7 @@ public class Game
 
         _currentRoom.SetPlayerHere(true);
     }
+
     
     private void DisplayCurrentRoomSense()
     {
@@ -131,6 +136,7 @@ public class Game
         
         if (currentRoomText is not null) Console.WriteLine(currentRoomText); 
     }
+   
     
     private void DisplayCurrentEnemySense()
     {
@@ -145,6 +151,7 @@ public class Game
         if (currentEnemyText is not null) Console.WriteLine(currentEnemyText);
     }
 
+    
     private void DisplayAdjacentRoomSenseFor(Room adjacentRoom)
     {
         string? adjacentRoomText = adjacentRoom.RoomType switch
@@ -158,6 +165,7 @@ public class Game
         if (adjacentRoomText is not null) Console.WriteLine(adjacentRoomText);
     }
 
+    
     private void DisplayAdjacentEnemySenseFor(Room adjacentRoom)
     {
         string? adjacentEnemyText = adjacentRoom.EnemyType switch
@@ -171,6 +179,7 @@ public class Game
         
         if (adjacentEnemyText is not null) Console.WriteLine(adjacentEnemyText);
     }
+   
     
     private void UpdateAdjacentLocations()
     {
@@ -180,12 +189,14 @@ public class Game
         if (_player.Location.Column - 1 >= 0) _adjacentLocations.Add(_player.Location with { Column = _player.Location.Column - 1});
         if (_player.Location.Column + 1 < _cave.Columns) _adjacentLocations.Add(_player.Location with { Column = _player.Location.Column + 1});
     }
+   
     
     private void UpdateAdjacentRooms()
     {
         _adjacentRooms.Clear();
         foreach (Location location in _adjacentLocations) _adjacentRooms.Add(_cave.GetRoomAt(location));
     }   
+   
     
     private void Display()
     {
