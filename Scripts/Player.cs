@@ -16,7 +16,7 @@ public class Player(GameData gameData)
     }
    
     
-    public void TryMoveArrow()
+    public void ProcessArrowInput()
     {
         if (ArrowLocation is null) return;
         _inputAction = GetInput();
