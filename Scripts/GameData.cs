@@ -143,4 +143,6 @@ public readonly struct GameData
     {
         return new Location(_random.Next(0, Rows), _random.Next(0, Columns));
     } 
+    
+    private enum DifficultyChoice { Easy, Medium, Hard } 
 }
