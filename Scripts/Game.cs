@@ -34,12 +34,13 @@ public class Game
             Console.Clear();
             UpdatePlayerRoom();
             UpdateAdjacentLocations();
-            UpdateAdjacentRooms(); 
+            UpdateAdjacentRooms();
+            _isGameOver = CheckIsGameOver();
             Display();
             GetCurrentRoomSense();
             GetCurrentEnemySense();
             
-            _isGameOver = CheckIsGameOver();
+            
             if (_isGameOver)
             {
                 Console.ReadKey(true);
@@ -203,12 +204,7 @@ public class Game
                 }
                 else if (_cave.Rooms[row, column].IsPlayerHere)
                 {
-                    if (_cave.Rooms[row, column].RoomType == RoomType.Pit ||
-                        _cave.Rooms[row, column].EnemyType == EnemyType.Amarok)
-                    {
-                        Console.Write("😵 ");
-                    }
-                    else Console.Write($"😊 ");
+                    Console.Write(_isGameOver ? "😵 " : $"😊 ");
                 }
                 else if (_cave.Rooms[row, column].RoomType == RoomType.Entrance)
                 {
