@@ -1,7 +1,7 @@
 namespace The_Fountain_of_Objects.Scripts;
 
 
-public static class SenseManager
+public class SenseManager
 {
     private const string See           = $"\e[38;2;251;245;43mSEE:{ResetColor}";
     private const string Hear          = $"\e[38;2;137;251;43mHEAR:{ResetColor}";
@@ -12,7 +12,7 @@ public static class SenseManager
     private const string ResetColor    = "\e[39m";
     
     
-    public static void DisplayCurrentRoomSense(Room currentRoom, bool isFountainRepaired)
+    public void DisplayCurrentRoomSense(Room currentRoom, bool isFountainRepaired)
     {
         string? currentRoomText = currentRoom.RoomType switch
         {
@@ -29,7 +29,7 @@ public static class SenseManager
     }
    
     
-    public static void DisplayCurrentEnemySense(Room currentRoom)
+    public void DisplayCurrentEnemySense(Room currentRoom)
     {
         string? currentEnemyText = currentRoom.EnemyType switch
         {
@@ -43,7 +43,7 @@ public static class SenseManager
     }
 
     
-    public static void DisplayAdjacentRoomSenseAt(Room adjacentRoom)
+    public void DisplayAdjacentRoomSenseAt(Room adjacentRoom)
     {
         string? adjacentRoomText = adjacentRoom.RoomType switch
         {
@@ -57,7 +57,7 @@ public static class SenseManager
     }
 
     
-    public static void DisplayAdjacentEnemySenseAt(Room adjacentRoom)
+    public void DisplayAdjacentEnemySenseAt(Room adjacentRoom)
     {
         string? adjacentEnemyText = adjacentRoom.EnemyType switch
         {

@@ -5,6 +5,7 @@ public class Game
 {
     private readonly Player _player;
     private readonly Cave _cave;
+    private readonly SenseManager _senseManager;
     private readonly List<Location> _adjacentLocations = [];
     private readonly List<Room> _adjacentRooms = [];
     private bool _isFountainRepaired;
@@ -18,6 +19,7 @@ public class Game
         GameData gameData = new(); 
         _player = new Player(gameData);
         _cave = new Cave(gameData);
+        _senseManager = new SenseManager();
         _currentRoom = _cave.GetRoomAt(gameData.EntranceLocation);
     }
    
@@ -40,8 +42,8 @@ public class Game
             
             foreach (Room room in _adjacentRooms)
             {
-                SenseManager.DisplayAdjacentRoomSenseAt(room); 
-                SenseManager.DisplayAdjacentEnemySenseAt(room);
+                _senseManager.DisplayAdjacentRoomSenseAt(room); 
+                _senseManager.DisplayAdjacentEnemySenseAt(room);
             }
             
             if (_currentRoom.EnemyType == EnemyType.Maelstrom)
@@ -90,8 +92,8 @@ public class Game
             Display();
             foreach (Room room in _adjacentRooms)
             {
-                SenseManager.DisplayAdjacentRoomSenseAt(room); 
-                SenseManager.DisplayAdjacentEnemySenseAt(room);
+                _senseManager.DisplayAdjacentRoomSenseAt(room); 
+                _senseManager.DisplayAdjacentEnemySenseAt(room);
             }
             _player.ProcessArrowInput();
         } 
@@ -141,8 +143,8 @@ public class Game
         Console.WriteLine("-------------------");
         Console.WriteLine($"Current Arrows: {_player.Arrows}");
         Console.WriteLine("-------------------");
-        SenseManager.DisplayCurrentRoomSense(_currentRoom, _isFountainRepaired);
-        SenseManager.DisplayCurrentEnemySense(_currentRoom);
+        _senseManager.DisplayCurrentRoomSense(_currentRoom, _isFountainRepaired);
+        _senseManager.DisplayCurrentEnemySense(_currentRoom);
     }
    
     
