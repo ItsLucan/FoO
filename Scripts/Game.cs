@@ -105,7 +105,7 @@ public class Game
     
     private void UpdatePlayerRoom()
     {
-        if (_currentRoom.Location != _player.Location)
+        if (_currentRoom != _cave.GetRoomAt(_player.Location))
         {
             _currentRoom.SetPlayerHere(false);
             _currentRoom = _cave.GetRoomAt(_player.Location);
@@ -123,7 +123,7 @@ public class Game
             {
                 Location indexLocation = new Location(row, column);
                 
-                if      (_cave.GetRoomAt(indexLocation).Location == _player.ArrowLocation && _player.ArrowLocation is not null) Console.Write("🏹 ");
+                if      (indexLocation == _player.ArrowLocation && _player.ArrowLocation is not null) Console.Write("🏹 ");
                 else if (_cave.GetRoomAt(indexLocation).IsPlayerHere) Console.Write(_hasPlayerLost ? "😵 " : _hasPlayerWon ? $"🥳 " : "😊 ");
                 else if (_cave.GetRoomAt(indexLocation).RoomType == RoomType.Entrance) Console.Write("🚪 ");
                 else if (_cave.GetRoomAt(indexLocation).HasPlayerVisited) Console.Write(_cave.GetRoomAt(indexLocation).RoomType == RoomType.Fountain ? "⛲ " : "   ");

@@ -20,13 +20,13 @@ public class Cave
         {
             for (int column = 0; column < Columns; column++)
             {
-                _rooms[row, column] = new Room(RoomType.Empty, new Location { Row = row, Column = column});
+                _rooms[row, column] = new Room(RoomType.Empty);
             }
         }
         
-        _rooms[_gameData.EntranceLocation.Row, _gameData.EntranceLocation.Column] = new Room(RoomType.Entrance, _gameData.EntranceLocation);
-        _rooms[_gameData.FountainLocation.Row, _gameData.FountainLocation.Column] = new Room(RoomType.Fountain, _gameData.FountainLocation);
-        foreach (Location location in _gameData.PitLocations) _rooms[location.Row, location.Column] = new Room(RoomType.Pit, location);
+        _rooms[_gameData.EntranceLocation.Row, _gameData.EntranceLocation.Column] = new Room(RoomType.Entrance);
+        _rooms[_gameData.FountainLocation.Row, _gameData.FountainLocation.Column] = new Room(RoomType.Fountain);
+        foreach (Location location in _gameData.PitLocations) _rooms[location.Row, location.Column] = new Room(RoomType.Pit);
         foreach (Location location in _gameData.AmarokLocations) GetRoomAt(location).SetEnemyHere(EnemyType.Amarok);
         foreach (Location location in _gameData.MaelstromLocations) GetRoomAt(location).SetEnemyHere(EnemyType.Maelstrom);
     }
