@@ -45,7 +45,7 @@ public class Player(GameData gameData)
     
     private Location MoveOnInputFrom(Location location)
     {
-        Location desiredLocation = _inputAction switch
+         return _inputAction switch
         {
             InputActions.MoveUp when location.Row - 1 >= 0                          => location with { Row = location.Row - 1 },
             InputActions.MoveLeft when location.Column - 1 >= 0                     => location with { Column = location.Column - 1 },
@@ -54,7 +54,6 @@ public class Player(GameData gameData)
             _                                                                       => location 
         };
 
-        return desiredLocation;
     }
    
     
